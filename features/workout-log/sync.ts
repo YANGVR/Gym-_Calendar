@@ -7,12 +7,13 @@ export type WorkoutRow = {
   part: string;
   exercise: string;
   brand: string;
+  model: string | null;
   sets: WorkoutSet[] | null;
 };
 
 export function toRow(workout: Workout): WorkoutRow {
-  const { id, date, part, exercise, brand, sets } = workout;
-  return { id, date, part, exercise, brand, sets };
+  const { id, date, part, exercise, brand, model, sets } = workout;
+  return { id, date, part, exercise, brand, model, sets };
 }
 
 export function fromRow(row: WorkoutRow): Workout {
@@ -22,6 +23,7 @@ export function fromRow(row: WorkoutRow): Workout {
     part: row.part,
     exercise: row.exercise,
     brand: row.brand,
+    model: row.model ?? "",
     sets: Array.isArray(row.sets) ? row.sets : [],
   };
 }
@@ -31,6 +33,7 @@ const sameContent = (a: Workout, b: Workout) =>
   a.part === b.part &&
   a.exercise === b.exercise &&
   a.brand === b.brand &&
+  a.model === b.model &&
   JSON.stringify(a.sets) === JSON.stringify(b.sets);
 
 /** 서버가 알고 있는 기록(before)과 지금 기록(after)의 차이: 올릴 것과 지울 것. */

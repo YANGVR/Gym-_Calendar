@@ -5,7 +5,7 @@ import { parseRecordLink, recordHref } from "./record-link";
 describe("기록 화면 주소", () => {
   it("선택한 운동과 날짜를 주소에 담고, 오늘이면 날짜는 생략한다", () => {
     const href = recordHref(
-      { part: "등", exercise: "렛풀다운", brand: "Hammer Strength", date: "2026-10-29" },
+      { part: "등", exercise: "렛풀다운", brand: "Hammer Strength", model: "", date: "2026-10-29" },
       "2026-10-29"
     );
 
@@ -35,5 +35,21 @@ describe("기록 화면 주소", () => {
     const parsed = parseRecordLink(new URLSearchParams("part=등&exercise=렛풀다운&brand=없는브랜드"), "2026-10-29");
 
     expect(parsed.selected).toBeNull();
+  });
+
+  it("모델은 주소에 담기고, 목록에 있는 모델만 읽는다", () => {
+    const href = recordHref(
+      { part: "가슴", exercise: "체스트 프레스", brand: "Hammer Strength", model: "MTS Iso-Lateral Chest Press" },
+      "2026-10-29"
+    );
+    const parsed = parseRecordLink(new URLSearchParams(href.slice(2)), "2026-10-29");
+
+    expect(parsed.selected?.model).toBe("MTS Iso-Lateral Chest Press");
+
+    const unknown = parseRecordLink(
+      new URLSearchParams("exercise=체스트 프레스&brand=Hammer Strength&model=없는모델"),
+      "2026-10-29"
+    );
+    expect(unknown.selected?.model).toBe("");
   });
 });

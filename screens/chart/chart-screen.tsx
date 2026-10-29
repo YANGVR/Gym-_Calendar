@@ -11,6 +11,8 @@ import { recordedSets, sessionsOf, useWorkoutLog } from "@/features/workout-log"
 import { formatDateLabel } from "@/lib/date";
 import { useHydrated } from "@/lib/persisted-store";
 
+const comboKey = (c: { exercise: string; brand: string; model: string }) => `${c.exercise}|${c.brand}|${c.model}`;
+
 export function ChartScreen() {
   const hydrated = useHydrated();
   const [log] = useWorkoutLog();
@@ -24,7 +26,10 @@ export function ChartScreen() {
     ...new Map(
       log
         .filter((workout) => recordedSets(workout).length > 0)
-        .map((workout) => [`${workout.exercise}|${workout.brand}`, { exercise: workout.exercise, brand: workout.brand }])
+        .map((workout) => [
+          comboKey(workout),
+          { exercise: workout.exercise, brand: workout.brand, model: workout.model },
+        ])
     ).values(),
   ];
 
@@ -39,7 +44,7 @@ export function ChartScreen() {
     );
   }
 
-  const combo = combos.find((c) => `${c.exercise}|${c.brand}` === picked) ?? combos[0];
+  const combo = combos.find((c) => comboKey(c) === picked) ?? combos[0];
   const sessions = sessionsOf(log, combo);
   const data = buildChartData(sessions, unit);
   const recent = sessions.slice(-data.dates.length);
@@ -52,16 +57,16 @@ export function ChartScreen() {
     <div className="flex flex-col gap-4 lg:grid lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start lg:gap-7">
       <NativeSelect
         className="w-full lg:col-span-2 lg:max-w-sm"
-        aria-label="종목과 브랜드"
-        value={`${combo.exercise}|${combo.brand}`}
+        aria-label="종목과 머신"
+        value={comboKey(combo)}
         onChange={(event) => {
           setPicked(event.target.value);
           setChosenIndex(null);
         }}
       >
         {combos.map((c) => (
-          <NativeSelectOption key={`${c.exercise}|${c.brand}`} value={`${c.exercise}|${c.brand}`}>
-            {c.brand} {c.exercise}
+          <NativeSelectOption key={comboKey(c)} value={comboKey(c)}>
+            {c.brand} {c.model && `${c.model} `}{c.exercise}
           </NativeSelectOption>
         ))}
       </NativeSelect>

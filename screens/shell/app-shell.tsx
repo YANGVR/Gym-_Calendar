@@ -130,19 +130,22 @@ export function AppShell({ children }: { children: ReactNode }) {
                 onRecord &&
                 !record?.pick &&
                 record?.selected?.exercise === workout.exercise &&
-                record.selected.brand === workout.brand;
+                record.selected.brand === workout.brand &&
+                record.selected.model === workout.model;
               return (
                 <Link
                   key={workout.id}
                   href={recordHref({ ...workout, date: workout.date }, today)}
-                  aria-label={`${workout.exercise} ${workout.brand} 기록 열기`}
+                  aria-label={`${workout.exercise} ${workout.brand}${workout.model ? ` ${workout.model}` : ""} 기록 열기`}
                   className={cn(
                     buttonVariants({ variant: active ? "default" : "outline", size: "sm" }),
                     "max-w-full"
                   )}
                 >
                   <span>{workout.exercise}</span>
-                  <small className="truncate text-[0.7rem] opacity-70">{workout.brand}</small>
+                  <small className="truncate text-[0.7rem] opacity-70">
+                    {workout.model ? `${workout.brand} ${workout.model}` : workout.brand}
+                  </small>
                 </Link>
               );
             })}

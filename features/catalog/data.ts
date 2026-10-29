@@ -1,3 +1,4 @@
+import { CATEGORIES, MODELS, type MachineCategory, type MachineModel } from "./models";
 import { freeWeightImage, freeWeightParts, freeWeightPartOf, freeWeightSteps, isEquipment } from "./free-weight";
 
 export const BRANDS = [
@@ -155,96 +156,6 @@ const VIDEOS = new Set<string>([
   "체스트 프레스|Hammer Strength",
 ]);
 
-/**
- * 머신 이미지(종목|브랜드). 브랜드 공식 사이트나 판매처의 제품 사진을 내려받아 public/machines에 둔다.
- * clip은 사진에 판매처 배지가 겹친 경우 그 부분을 가리는 clip-path 값이다.
- */
-const IMAGES: Record<string, { src: string; clip?: string }> = {
-  "렛풀다운|Hammer Strength": { src: "/machines/lat-pulldown-hammer-strength.jpg" },
-  "렛풀다운|Life Fitness": { src: "/machines/lat-pulldown-life-fitness.jpg" },
-  "렛풀다운|Technogym": { src: "/machines/lat-pulldown-technogym.jpg" },
-  "렛풀다운|Cybex": {
-    src: "/machines/lat-pulldown-cybex.png",
-    clip: "polygon(0 0, 66.5% 0, 66.5% 45%, 100% 45%, 100% 100%, 0 100%)",
-  },
-  "렛풀다운|Gym80": { src: "/machines/lat-pulldown-gym80.png" },
-  "렛풀다운|Prime": { src: "/machines/lat-pulldown-prime.jpg" },
-  "렛풀다운|Nautilus": { src: "/machines/lat-pulldown-nautilus.png" },
-  "체스트 프레스|Cybex": { src: "/machines/chest-press-cybex.png" },
-  "체스트 프레스|Gym80": { src: "/machines/chest-press-gym80.png" },
-  "체스트 프레스|Hammer Strength": { src: "/machines/chest-press-hammer-strength.jpg" },
-  "체스트 프레스|Life Fitness": { src: "/machines/chest-press-life-fitness.jpg" },
-  "체스트 프레스|Technogym": { src: "/machines/chest-press-technogym.png" },
-  "인클라인 프레스|Gym80": { src: "/machines/incline-press-gym80.png" },
-  "인클라인 프레스|Cybex": {
-    src: "/machines/incline-press-cybex.jpg",
-    clip: "polygon(0 0, 100% 0, 100% 90%, 60% 90%, 60% 100%, 0 100%)",
-  },
-  "인클라인 프레스|Hammer Strength": { src: "/machines/incline-press-hammer-strength.jpg" },
-  "펙덱 플라이|Life Fitness": { src: "/machines/pec-deck-life-fitness.jpg" },
-  "펙덱 플라이|Nautilus": { src: "/machines/pec-deck-nautilus.png" },
-  "펙덱 플라이|Prime": { src: "/machines/pec-deck-prime.jpg" },
-  "펙덱 플라이|Technogym": { src: "/machines/pec-deck-technogym.png" },
-  "시티드 로우|Cybex": { src: "/machines/seated-row-cybex.jpg" },
-  "시티드 로우|Hammer Strength": { src: "/machines/seated-row-hammer-strength.jpg" },
-  "시티드 로우|Life Fitness": { src: "/machines/seated-row-life-fitness.jpg" },
-  "시티드 로우|Nautilus": { src: "/machines/seated-row-nautilus.png" },
-  "시티드 로우|Technogym": { src: "/machines/seated-row-technogym.jpg" },
-  "T바 로우|Gym80": { src: "/machines/t-bar-row-gym80.png" },
-  "T바 로우|Hammer Strength": { src: "/machines/t-bar-row-hammer-strength.jpg" },
-  "레터럴 레이즈|Gym80": { src: "/machines/lateral-raise-gym80.jpeg" },
-  "레터럴 레이즈|Life Fitness": { src: "/machines/lateral-raise-life-fitness.png" },
-  "레터럴 레이즈|Nautilus": { src: "/machines/lateral-raise-nautilus.png" },
-  "숄더 프레스|Cybex": { src: "/machines/shoulder-press-cybex.png" },
-  "숄더 프레스|Hammer Strength": { src: "/machines/shoulder-press-hammer-strength.jpg" },
-  "숄더 프레스|Life Fitness": { src: "/machines/shoulder-press-life-fitness.png" },
-  "숄더 프레스|Prime": { src: "/machines/shoulder-press-prime.jpg" },
-  "숄더 프레스|Technogym": { src: "/machines/shoulder-press-technogym.jpg" },
-  "레그 컬|Cybex": { src: "/machines/leg-curl-cybex.png" },
-  "레그 컬|Life Fitness": { src: "/machines/leg-curl-life-fitness.jpg" },
-  "레그 컬|Prime": { src: "/machines/leg-curl-prime.jpg" },
-  "레그 컬|Technogym": { src: "/machines/leg-curl-technogym.png" },
-  "레그 익스텐션|Cybex": { src: "/machines/leg-extension-cybex.png" },
-  "레그 익스텐션|Life Fitness": { src: "/machines/leg-extension-life-fitness.jpg" },
-  "레그 익스텐션|Nautilus": { src: "/machines/leg-extension-nautilus.png" },
-  "레그 익스텐션|Technogym": { src: "/machines/leg-extension-technogym.png" },
-  "레그 프레스|Gym80": { src: "/machines/leg-press-gym80.png" },
-  "레그 프레스|Hammer Strength": { src: "/machines/leg-press-hammer-strength.jpg" },
-  "레그 프레스|Life Fitness": { src: "/machines/leg-press-life-fitness.jpg" },
-  "레그 프레스|Prime": { src: "/machines/leg-press-prime.jpg" },
-  "레그 프레스|Technogym": { src: "/machines/leg-press-technogym.png" },
-  "바이셉 컬|Cybex": { src: "/machines/biceps-curl-cybex.png" },
-  "바이셉 컬|Life Fitness": { src: "/machines/biceps-curl-life-fitness.png" },
-  "바이셉 컬|Nautilus": { src: "/machines/biceps-curl-nautilus.png" },
-  "바이셉 컬|Technogym": { src: "/machines/biceps-curl-technogym.png" },
-  "트라이셉스 익스텐션|Gym80": { src: "/machines/triceps-extension-gym80.png" },
-  "트라이셉스 익스텐션|Hammer Strength": { src: "/machines/triceps-extension-hammer-strength.jpg" },
-  "트라이셉스 익스텐션|Life Fitness": { src: "/machines/triceps-extension-life-fitness.png" },
-};
-
-export const CATEGORIES = ["Pin", "Plate"] as const;
-export type MachineCategory = (typeof CATEGORIES)[number];
-
-/**
- * 원판을 끼우는 Plate 조합(종목|브랜드). 여기 없는 조합은 핀을 꽂는 Pin이다.
- * 브랜드 공식 사이트와 판매처의 제품 정보를 보고 나눴다.
- */
-const PLATE_LOADED = new Set<string>([
-  "체스트 프레스|Gym80",
-  "인클라인 프레스|Hammer Strength",
-  "인클라인 프레스|Gym80",
-  "렛풀다운|Gym80",
-  "T바 로우|Hammer Strength",
-  "T바 로우|Gym80",
-  "숄더 프레스|Hammer Strength",
-  "숄더 프레스|Prime",
-  "레터럴 레이즈|Gym80",
-  "레그 프레스|Hammer Strength",
-  "레그 프레스|Gym80",
-  "레그 프레스|Prime",
-  "트라이셉스 익스텐션|Gym80",
-]);
-
 function findExercise(exercise: string): ExerciseEntry | undefined {
   for (const entries of Object.values(CATALOG)) {
     const found = entries.find((entry) => entry.name === exercise);
@@ -254,6 +165,8 @@ function findExercise(exercise: string): ExerciseEntry | undefined {
 }
 
 export const PARTS = Object.keys(CATALOG);
+
+export { CATEGORIES, type MachineCategory, type MachineModel };
 
 export const KINDS = ["Machine", "Free Weight"] as const;
 export type ExerciseKind = (typeof KINDS)[number];
@@ -291,27 +204,37 @@ export function howToSteps(exercise: string, brand?: string): string[] {
   return findExercise(exercise)?.steps ?? [];
 }
 
-/** 종목·브랜드 조합의 머신 이미지. 아직 구하지 못한 조합은 undefined이고, 화면은 자리표시 이미지를 보여준다. */
-export function imageOf(exercise: string, brand: string): { src: string; clip?: string } | undefined {
+/** 종목·브랜드의 머신 모델. 모델 이름은 같은 브랜드의 같은 종목 안에서 구분된다. */
+export function modelsOf(exercise: string, brand: string): MachineModel[] {
+  return MODELS[`${exercise}|${brand}`] ?? [];
+}
+
+/**
+ * 종목·브랜드·모델의 머신 이미지. 모델 이름을 생략하면 첫 모델을 쓴다.
+ * 사진이 없는 모델은 undefined이고, 화면은 자리표시 이미지를 보여준다.
+ */
+export function imageOf(exercise: string, brand: string, model?: string): { src: string; clip?: string } | undefined {
   if (isEquipment(brand)) {
     const src = freeWeightImage(exercise, brand);
     return src ? { src } : undefined;
   }
-  return IMAGES[`${exercise}|${brand}`];
+  const models = modelsOf(exercise, brand);
+  const found = (model ? models.find((m) => m.name === model) : models[0]) ?? undefined;
+  return found?.src ? { src: found.src, clip: found.clip } : undefined;
 }
 
-/** 종목·브랜드 조합의 머신 카테고리. */
-export function categoryOf(exercise: string, brand: string): MachineCategory {
-  return PLATE_LOADED.has(`${exercise}|${brand}`) ? "Plate" : "Pin";
-}
-
-/** 종목에서 고를 수 있는 머신 카테고리(브랜드가 하나라도 있는 것만, Pin이 먼저). */
+/** 종목에서 고를 수 있는 머신 카테고리(모델이 하나라도 있는 것만, Pin이 먼저). */
 export function categoriesOf(exercise: string): MachineCategory[] {
   const brands = brandsOf(exercise);
-  return CATEGORIES.filter((category) => brands.some((brand) => categoryOf(exercise, brand) === category));
+  return CATEGORIES.filter((category) => brands.some((brand) => modelsOf(exercise, brand).some((m) => m.category === category)));
 }
 
-/** 종목의 한 카테고리에 속한 브랜드. */
+/** 종목의 한 카테고리에 속한 모델이 있는 브랜드. */
 export function brandsIn(exercise: string, category: MachineCategory): string[] {
-  return brandsOf(exercise).filter((brand) => categoryOf(exercise, brand) === category);
+  return brandsOf(exercise).filter((brand) => modelsOf(exercise, brand).some((m) => m.category === category));
+}
+
+/** 종목·브랜드의 한 카테고리에 속한 모델. */
+export function modelsIn(exercise: string, brand: string, category: MachineCategory): MachineModel[] {
+  return modelsOf(exercise, brand).filter((m) => m.category === category);
 }

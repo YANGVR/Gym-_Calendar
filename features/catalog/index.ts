@@ -6,15 +6,17 @@ export {
   brandsIn,
   brandsOf,
   categoriesOf,
-  categoryOf,
   exercisesOf,
   hasVideo,
   howToSteps,
   imageOf,
+  modelsIn,
+  modelsOf,
   partOf,
   partOfCombo,
   partsOf,
   type ExerciseKind,
   type MachineCategory,
+  type MachineModel,
 } from "./data";
 export { EQUIPMENT, equipmentOf, freeWeightExercises, isEquipment, type Equipment } from "./free-weight";

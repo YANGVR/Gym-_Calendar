@@ -1,6 +1,7 @@
-import { partOfCombo } from "@/features/catalog";
+import { modelsOf, partOfCombo } from "@/features/catalog";
 
-export type RecordSelection = { part: string; exercise: string; brand: string };
+/** model은 머신 모델 이름이고, 모델이 없는 기록(프리웨이트)은 빈 문자열이다. */
+export type RecordSelection = { part: string; exercise: string; brand: string; model: string };
 
 type RecordLink = Partial<RecordSelection> & { date?: string; pick?: boolean };
 
@@ -10,6 +11,7 @@ export function recordHref(link: RecordLink, today: string): string {
   if (link.part) params.set("part", link.part);
   if (link.exercise) params.set("exercise", link.exercise);
   if (link.brand) params.set("brand", link.brand);
+  if (link.model) params.set("model", link.model);
   if (link.date && link.date !== today) params.set("date", link.date);
   if (link.pick) params.set("pick", "1");
   const query = params.toString();
@@ -23,6 +25,8 @@ export function parseRecordLink(params: URLSearchParams, today: string) {
   const exercise = params.get("exercise");
   const brand = params.get("brand");
   const part = exercise && brand ? partOfCombo(exercise, brand) : undefined;
-  const selected: RecordSelection | null = exercise && brand && part ? { part, exercise, brand } : null;
+  const rawModel = params.get("model") ?? "";
+  const model = exercise && brand && modelsOf(exercise, brand).some((m) => m.name === rawModel) ? rawModel : "";
+  const selected: RecordSelection | null = exercise && brand && part ? { part, exercise, brand, model } : null;
   return { date, selected, pick: params.get("pick") === "1" };
 }

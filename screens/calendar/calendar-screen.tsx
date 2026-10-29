@@ -219,15 +219,15 @@ function WorkoutCard({
         <div className="flex items-center gap-2.5">
           <MachineImage
             brand={workout.brand}
-            src={imageOf(workout.exercise, workout.brand)?.src}
-            clip={imageOf(workout.exercise, workout.brand)?.clip}
+            src={imageOf(workout.exercise, workout.brand, workout.model)?.src}
+            clip={imageOf(workout.exercise, workout.brand, workout.model)?.clip}
             alt={isEquipment(workout.brand) ? `${workout.exercise} ${workout.brand}` : undefined}
             className="h-10 w-14 shrink-0 text-[0.625rem] leading-tight"
           />
           <div className="min-w-0 flex-1">
             <p className="font-semibold">{workout.exercise}</p>
             <p className="truncate text-xs text-muted-foreground">
-              {workout.brand} · {workout.part}
+              {workout.model ? `${workout.brand} ${workout.model}` : workout.brand} · {workout.part}
             </p>
           </div>
           <Button variant={editing ? "default" : "outline"} size="sm" onClick={onToggleEdit}>

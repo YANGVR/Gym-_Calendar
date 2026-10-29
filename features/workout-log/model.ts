@@ -6,11 +6,15 @@ export type Workout = {
   part: string;
   exercise: string;
   brand: string;
+  /** 머신 모델 이름. 모델을 고르지 않는 기록(프리웨이트, 모델이 도입되기 전 기록)은 빈 문자열. */
+  model: string;
   sets: WorkoutSet[];
 };
 
-/** 날짜 + 종목 + 브랜드가 하나의 운동 기록을 가리킨다. */
-export type WorkoutKey = { date: string; exercise: string; brand: string };
+/** 날짜 + 종목 + 브랜드 + 모델이 하나의 운동 기록을 가리킨다. */
+export type WorkoutKey = { date: string; exercise: string; brand: string; model: string };
+/** 같은 머신(종목 + 브랜드 + 모델)의 기록끼리 비교하고 차트에 그린다. */
+export type MachineKey = { exercise: string; brand: string; model: string };
 export type WorkoutTarget = WorkoutKey & { part: string };
 
 export type RecordedSet = { weightKg: number; reps: number };
@@ -30,7 +34,7 @@ function createId(): string {
 }
 
 function matches(workout: Workout, key: WorkoutKey): boolean {
-  return workout.date === key.date && workout.exercise === key.exercise && workout.brand === key.brand;
+  return workout.date === key.date && workout.exercise === key.exercise && workout.brand === key.brand && workout.model === key.model;
 }
 
 export function findWorkout(log: Workout[], key: WorkoutKey): Workout | undefined {
@@ -44,7 +48,15 @@ function upsert(log: Workout[], target: WorkoutTarget, change: (sets: WorkoutSet
     if (sets.length === 0) return log;
     return [
       ...log,
-      { id: createId(), date: target.date, part: target.part, exercise: target.exercise, brand: target.brand, sets },
+      {
+        id: createId(),
+        date: target.date,
+        part: target.part,
+        exercise: target.exercise,
+        brand: target.brand,
+        model: target.model,
+        sets,
+      },
     ];
   }
   const sets = change(existing.sets);
@@ -86,10 +98,10 @@ export function removeWorkout(log: Workout[], id: string): Workout[] {
   return log.filter((workout) => workout.id !== id);
 }
 
-/** 같은 종목·브랜드에서 beforeDate보다 앞선 가장 최근 운동일의 기록. */
+/** 같은 머신(종목·브랜드·모델)에서 beforeDate보다 앞선 가장 최근 운동일의 기록. */
 export function previousSession(
   log: Workout[],
-  key: { exercise: string; brand: string },
+  key: MachineKey,
   beforeDate: string
 ): Workout | undefined {
   return log
@@ -97,6 +109,7 @@ export function previousSession(
       (workout) =>
         workout.exercise === key.exercise &&
         workout.brand === key.brand &&
+        workout.model === key.model &&
         workout.date < beforeDate &&
         recordedSets(workout).length > 0
     )
@@ -121,12 +134,15 @@ export function datesWithRecords(log: Workout[]): Set<string> {
   return new Set(log.filter((workout) => recordedSets(workout).length > 0).map((workout) => workout.date));
 }
 
-/** 같은 종목·브랜드의 기록된 운동일들을 오래된 순서로. */
-export function sessionsOf(log: Workout[], key: { exercise: string; brand: string }): Workout[] {
+/** 같은 머신(종목·브랜드·모델)의 기록된 운동일들을 오래된 순서로. */
+export function sessionsOf(log: Workout[], key: MachineKey): Workout[] {
   return log
     .filter(
       (workout) =>
-        workout.exercise === key.exercise && workout.brand === key.brand && recordedSets(workout).length > 0
+        workout.exercise === key.exercise &&
+        workout.brand === key.brand &&
+        workout.model === key.model &&
+        recordedSets(workout).length > 0
     )
     .sort((a, b) => a.date.localeCompare(b.date));
 }

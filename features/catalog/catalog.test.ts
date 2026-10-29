@@ -9,7 +9,8 @@ import {
   brandsIn,
   brandsOf,
   categoriesOf,
-  categoryOf,
+  modelsIn,
+  modelsOf,
   exercisesOf,
   hasVideo,
   howToSteps,
@@ -67,21 +68,53 @@ describe("머신 목록", () => {
     }
   });
 
-  it("이미지를 아직 구하지 못한 조합은 두 개뿐이고, 나머지는 실제 파일이 있다", () => {
+  it("사진을 아직 구하지 못한 머신 모델은 두 개뿐이고, 나머지는 실제 파일이 있다", () => {
     const missing: string[] = [];
     for (const part of PARTS) {
       for (const exercise of exercisesOf(part)) {
         for (const brand of brandsOf(exercise)) {
-          const image = imageOf(exercise, brand);
-          if (!image) {
-            missing.push(`${exercise}|${brand}`);
-            continue;
+          for (const model of modelsOf(exercise, brand)) {
+            const image = imageOf(exercise, brand, model.name);
+            if (!image) {
+              missing.push(`${exercise}|${brand}`);
+              continue;
+            }
+            expect(existsSync(join(process.cwd(), "public", image.src))).toBe(true);
           }
-          expect(existsSync(join(process.cwd(), "public", image.src))).toBe(true);
         }
       }
     }
     expect(missing.sort()).toEqual(["T바 로우|Prime", "레터럴 레이즈|Technogym"]);
+  });
+
+  it("모든 종목·브랜드에 머신 모델이 하나 이상 있고, 같은 브랜드 안에서 이름이 겹치지 않는다", () => {
+    for (const part of PARTS) {
+      for (const exercise of exercisesOf(part)) {
+        for (const brand of brandsOf(exercise)) {
+          const names = modelsOf(exercise, brand).map((model) => model.name);
+          expect(names.length).toBeGreaterThan(0);
+          expect(new Set(names).size).toBe(names.length);
+        }
+      }
+    }
+  });
+
+  it("같은 브랜드의 체스트 프레스에는 여러 머신 모델이 있고, 모델마다 이미지가 다르다", () => {
+    const models = modelsOf("체스트 프레스", "Hammer Strength");
+    expect(models.length).toBeGreaterThan(1);
+    expect(new Set(models.map((model) => model.src)).size).toBe(models.length);
+    expect(imageOf("체스트 프레스", "Hammer Strength", models[1].name)?.src).toBe(models[1].src);
+    // 모델을 생략하면 첫 모델의 이미지다.
+    expect(imageOf("체스트 프레스", "Hammer Strength")?.src).toBe(models[0].src);
+  });
+
+  it("한 브랜드의 모델은 카테고리별로 나뉜다", () => {
+    const pin = modelsIn("체스트 프레스", "Hammer Strength", "Pin");
+    const plate = modelsIn("체스트 프레스", "Hammer Strength", "Plate");
+    expect(pin.length).toBeGreaterThan(0);
+    expect(plate.length).toBeGreaterThan(0);
+    expect(brandsIn("체스트 프레스", "Plate")).toContain("Hammer Strength");
+    expect(brandsIn("체스트 프레스", "Pin")).toContain("Hammer Strength");
   });
 
   it("렛풀다운은 Pin 여섯 브랜드와 Plate Gym80으로 나뉜다", () => {
@@ -95,7 +128,7 @@ describe("머신 목록", () => {
       "Prime",
       "Nautilus",
     ]);
-    expect(categoryOf("렛풀다운", "Gym80")).toBe("Plate");
+    expect(modelsOf("렛풀다운", "Gym80").every((model) => model.category === "Plate")).toBe(true);
   });
 
   it("카테고리가 하나뿐인 종목은 그 하나만 나온다", () => {
@@ -103,10 +136,10 @@ describe("머신 목록", () => {
     expect(categoriesOf("레그 컬")).toEqual(["Pin"]);
   });
 
-  it("모든 브랜드는 정확히 한 카테고리에 속한다", () => {
+  it("모든 브랜드는 하나 이상의 카테고리에 속한다", () => {
     for (const part of PARTS) {
       for (const exercise of exercisesOf(part)) {
-        const split = categoriesOf(exercise).flatMap((category) => brandsIn(exercise, category));
+        const split = new Set(categoriesOf(exercise).flatMap((category) => brandsIn(exercise, category)));
         expect([...split].sort()).toEqual([...brandsOf(exercise)].sort());
       }
     }

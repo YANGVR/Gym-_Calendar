@@ -48,7 +48,7 @@ async function runSync() {
       }
       set({ sync: "saving" });
       const supabase = createClient();
-      // 같은 날 같은 종목·브랜드를 지웠다 다시 만든 경우를 위해 지우기를 먼저 한다.
+      // 같은 날 같은 머신을 지웠다 다시 만든 경우를 위해 지우기를 먼저 한다.
       if (deletes.length > 0) {
         const { error } = await supabase.from("workouts").delete().in("id", deletes);
         if (error) throw error;
@@ -86,7 +86,7 @@ export async function loadWorkouts() {
   set({ loadError: false });
   const { data, error } = await createClient()
     .from("workouts")
-    .select("id,date,part,exercise,brand,sets")
+    .select("id,date,part,exercise,brand,model,sets")
     .order("date", { ascending: true });
   loading = false;
   if (error) {

@@ -17,13 +17,15 @@ const target = {
   part: "등",
   exercise: "렛풀다운",
   brand: "Hammer Strength",
+  model: "Select Lat Pulldown",
 };
 
 function workout(
   id: string,
   date: string,
   brand: string,
-  sets: [number | null, number | null][]
+  sets: [number | null, number | null][],
+  model = "Select Lat Pulldown"
 ): Workout {
   return {
     id,
@@ -31,6 +33,7 @@ function workout(
     part: "등",
     exercise: "렛풀다운",
     brand,
+    model,
     sets: sets.map(([weightKg, reps]) => ({ weightKg, reps })),
   };
 }
@@ -100,17 +103,17 @@ describe("조회와 비교", () => {
   ];
 
   it("같은 종목이라도 다른 브랜드는 이전 기록으로 치지 않는다", () => {
-    const prev = previousSession(log, { exercise: "렛풀다운", brand: "Hammer Strength" }, "2026-10-29");
+    const prev = previousSession(log, { exercise: "렛풀다운", brand: "Hammer Strength", model: "Select Lat Pulldown" }, "2026-10-29");
 
     expect(prev?.id).toBe("b");
   });
 
   it("고른 날짜보다 앞선 기록만 이전 기록이 된다", () => {
-    const prev = previousSession(log, { exercise: "렛풀다운", brand: "Hammer Strength" }, "2026-10-26");
+    const prev = previousSession(log, { exercise: "렛풀다운", brand: "Hammer Strength", model: "Select Lat Pulldown" }, "2026-10-26");
 
     expect(prev?.id).toBe("a");
     expect(
-      previousSession(log, { exercise: "렛풀다운", brand: "Hammer Strength" }, "2026-10-22")
+      previousSession(log, { exercise: "렛풀다운", brand: "Hammer Strength", model: "Select Lat Pulldown" }, "2026-10-22")
     ).toBeUndefined();
   });
 
@@ -126,5 +129,29 @@ describe("조회와 비교", () => {
     expect(workoutsOn(log, "2026-10-29")).toEqual([]);
     expect(workoutsOn(log, "2026-10-26").map((w) => w.id)).toEqual(["b"]);
     expect([...datesWithRecords(log)].sort()).toEqual(["2026-10-22", "2026-10-26", "2026-10-28"]);
+  });
+});
+
+describe("머신 모델", () => {
+  const other = { ...target, model: "Other Pulldown" };
+
+  it("같은 날 같은 브랜드라도 모델이 다르면 별도 기록이 된다", () => {
+    let log = setSetValue([], target, 0, { weightKg: 50, reps: 10 });
+    log = setSetValue(log, other, 0, { weightKg: 40, reps: 12 });
+
+    expect(log).toHaveLength(2);
+    expect(log.map((w) => w.model).sort()).toEqual(["Other Pulldown", "Select Lat Pulldown"]);
+  });
+
+  it("지난 기록은 같은 모델에서만 찾는다", () => {
+    const log = [
+      workout("a", "2026-10-22", "Hammer Strength", [[50, 10]]),
+      workout("b", "2026-10-25", "Hammer Strength", [[30, 12]], "Other Pulldown"),
+    ];
+
+    const key = { exercise: "렛풀다운", brand: "Hammer Strength" };
+    expect(previousSession(log, { ...key, model: "Select Lat Pulldown" }, "2026-10-29")?.id).toBe("a");
+    expect(previousSession(log, { ...key, model: "Other Pulldown" }, "2026-10-29")?.id).toBe("b");
+    expect(previousSession(log, { ...key, model: "" }, "2026-10-29")).toBeUndefined();
   });
 });

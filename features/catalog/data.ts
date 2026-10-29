@@ -1,3 +1,5 @@
+import { freeWeightImage, freeWeightParts, freeWeightPartOf, freeWeightSteps, isEquipment } from "./free-weight";
+
 export const BRANDS = [
   "Hammer Strength",
   "Life Fitness",
@@ -253,6 +255,20 @@ function findExercise(exercise: string): ExerciseEntry | undefined {
 
 export const PARTS = Object.keys(CATALOG);
 
+export const KINDS = ["Machine", "Free Weight"] as const;
+export type ExerciseKind = (typeof KINDS)[number];
+
+/** 분류별로 고를 수 있는 부위. */
+export function partsOf(kind: ExerciseKind): string[] {
+  return kind === "Machine" ? PARTS : freeWeightParts();
+}
+
+/** 종목과 브랜드(프리웨이트는 장비)가 목록에 있는 조합이면 그 부위를, 아니면 undefined. */
+export function partOfCombo(exercise: string, brand: string): string | undefined {
+  if (isEquipment(brand)) return freeWeightPartOf(exercise, brand);
+  return brandsOf(exercise).includes(brand) ? partOf(exercise) : undefined;
+}
+
 export function exercisesOf(part: string): string[] {
   return (CATALOG[part] ?? []).map((entry) => entry.name);
 }
@@ -269,12 +285,18 @@ export function hasVideo(exercise: string, brand: string): boolean {
   return VIDEOS.has(`${exercise}|${brand}`);
 }
 
-export function howToSteps(exercise: string): string[] {
+/** 운동 방법. brand가 프리웨이트 장비(Dumbbell, Barbell)면 그 장비의 방법을 돌려준다. */
+export function howToSteps(exercise: string, brand?: string): string[] {
+  if (brand && isEquipment(brand)) return freeWeightSteps(exercise, brand);
   return findExercise(exercise)?.steps ?? [];
 }
 
 /** 종목·브랜드 조합의 머신 이미지. 아직 구하지 못한 조합은 undefined이고, 화면은 자리표시 이미지를 보여준다. */
 export function imageOf(exercise: string, brand: string): { src: string; clip?: string } | undefined {
+  if (isEquipment(brand)) {
+    const src = freeWeightImage(exercise, brand);
+    return src ? { src } : undefined;
+  }
   return IMAGES[`${exercise}|${brand}`];
 }
 

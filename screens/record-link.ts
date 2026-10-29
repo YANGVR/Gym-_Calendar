@@ -1,4 +1,4 @@
-import { brandsOf, partOf } from "@/features/catalog";
+import { partOfCombo } from "@/features/catalog";
 
 export type RecordSelection = { part: string; exercise: string; brand: string };
 
@@ -22,8 +22,7 @@ export function parseRecordLink(params: URLSearchParams, today: string) {
   const date = rawDate && /^\d{4}-\d{2}-\d{2}$/.test(rawDate) && rawDate <= today ? rawDate : today;
   const exercise = params.get("exercise");
   const brand = params.get("brand");
-  const part = exercise ? partOf(exercise) : undefined;
-  const selected: RecordSelection | null =
-    exercise && brand && part && brandsOf(exercise).includes(brand) ? { part, exercise, brand } : null;
+  const part = exercise && brand ? partOfCombo(exercise, brand) : undefined;
+  const selected: RecordSelection | null = exercise && brand && part ? { part, exercise, brand } : null;
   return { date, selected, pick: params.get("pick") === "1" };
 }

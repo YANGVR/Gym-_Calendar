@@ -6,19 +6,23 @@ type MachineImageProps = {
   src?: string;
   /** 사진 일부(판매처 배지 등)를 가릴 clip-path 값. */
   clip?: string;
+  /** 사진을 칸에 맞추는 방식. 제품 사진은 contain, 사람이 나오는 운동 사진은 cover. */
+  fit?: "contain" | "cover";
+  /** 대체 텍스트. 없으면 "브랜드 머신". */
+  alt?: string;
   className?: string;
 };
 
-export function MachineImage({ brand, src, clip, className }: MachineImageProps) {
+export function MachineImage({ brand, src, clip, fit = "contain", alt, className }: MachineImageProps) {
   if (src) {
     return (
       <div className={cn("overflow-hidden rounded-md bg-white", className)}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={src}
-          alt={`${brand} 머신`}
+          alt={alt ?? `${brand} 머신`}
           style={clip ? { clipPath: clip } : undefined}
-          className="size-full object-contain"
+          className={fit === "cover" ? "size-full object-cover" : "size-full object-contain"}
         />
       </div>
     );

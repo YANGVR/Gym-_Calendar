@@ -14,6 +14,12 @@ import {
   hasVideo,
   howToSteps,
   imageOf,
+  KINDS,
+  partOfCombo,
+  partsOf,
+  EQUIPMENT,
+  equipmentOf,
+  freeWeightExercises,
 } from "./index";
 
 describe("머신 목록", () => {
@@ -104,5 +110,60 @@ describe("머신 목록", () => {
         expect([...split].sort()).toEqual([...brandsOf(exercise)].sort());
       }
     }
+  });
+
+  it("분류는 Machine과 Free Weight이고, 두 분류 모두 같은 다섯 부위를 쓴다", () => {
+    expect(KINDS).toEqual(["Machine", "Free Weight"]);
+    expect(partsOf("Machine")).toEqual(PARTS);
+    expect(partsOf("Free Weight")).toEqual(PARTS);
+  });
+
+  it("프리웨이트는 부위마다 Dumbbell, Barbell, Cable 운동 목록이 있고 운동 방법이 2~3줄 있다", () => {
+    expect(EQUIPMENT).toEqual(["Dumbbell", "Barbell", "Cable"]);
+    for (const part of PARTS) {
+      expect(equipmentOf(part)).toEqual(["Dumbbell", "Barbell", "Cable"]);
+      for (const equipment of EQUIPMENT) {
+        const names = freeWeightExercises(part, equipment);
+        expect(names.length).toBeGreaterThanOrEqual(2);
+        for (const name of names) {
+          expect(howToSteps(name, equipment).length).toBeGreaterThanOrEqual(2);
+          expect(howToSteps(name, equipment).length).toBeLessThanOrEqual(3);
+        }
+      }
+    }
+    expect(freeWeightExercises("가슴", "Barbell")).toEqual(["벤치 프레스", "인클라인 벤치 프레스", "디클라인 벤치 프레스"]);
+  });
+
+  it("프리웨이트 조합의 부위를 찾고, 목록에 없는 조합은 거절한다", () => {
+    expect(partOfCombo("벤치 프레스", "Barbell")).toBe("가슴");
+    expect(partOfCombo("스쿼트", "Dumbbell")).toBe("하체");
+    expect(partOfCombo("고블릿 스쿼트", "Dumbbell")).toBeUndefined();
+    expect(partOfCombo("렛풀다운", "Hammer Strength")).toBe("등");
+    expect(partOfCombo("렛풀다운", "Barbell")).toBeUndefined();
+  });
+
+  it("프리웨이트 운동 40개 모두 사진 파일이 있다", () => {
+    let total = 0;
+    for (const part of PARTS) {
+      for (const equipment of EQUIPMENT) {
+        for (const name of freeWeightExercises(part, equipment)) {
+          const image = imageOf(name, equipment);
+          expect(image?.src, `${equipment} ${name}`).toMatch(/^\/free-weight\/.+\.png$/);
+          expect(existsSync(join(process.cwd(), "public", image!.src)), `${equipment} ${name}`).toBe(true);
+          total += 1;
+        }
+      }
+    }
+    expect(total).toBe(40);
+  });
+
+  it("Cable은 부위마다 2~3개 운동이 있고, 그 조합의 부위를 찾는다", () => {
+    expect(freeWeightExercises("가슴", "Cable")).toEqual(["크로스오버", "플랫 플라이", "인클라인 플라이"]);
+    expect(freeWeightExercises("하체", "Cable")).toEqual(["킥백", "힙 어덕션"]);
+    expect(partOfCombo("크로스오버", "Cable")).toBe("가슴");
+    // 같은 이름이라도 장비가 다르면 따로 취급한다.
+    expect(partOfCombo("시티드 로우", "Cable")).toBe("등");
+    expect(partOfCombo("시티드 로우", "Barbell")).toBeUndefined();
+    expect(imageOf("시티드 로우", "Cable")?.src).toBe("/free-weight/cable-seated-row.png");
   });
 });

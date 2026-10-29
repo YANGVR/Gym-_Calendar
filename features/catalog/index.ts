@@ -1,6 +1,7 @@
 export {
   BRANDS,
   CATEGORIES,
+  KINDS,
   PARTS,
   brandsIn,
   brandsOf,
@@ -11,5 +12,9 @@ export {
   howToSteps,
   imageOf,
   partOf,
+  partOfCombo,
+  partsOf,
+  type ExerciseKind,
   type MachineCategory,
 } from "./data";
+export { EQUIPMENT, equipmentOf, freeWeightExercises, isEquipment, type Equipment } from "./free-weight";

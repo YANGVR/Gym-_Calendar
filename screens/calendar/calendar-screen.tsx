@@ -9,7 +9,7 @@ import { NumberField } from "@/components/number-field";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Empty, EmptyDescription, EmptyHeader, EmptyTitle } from "@/components/ui/empty";
-import { imageOf } from "@/features/catalog";
+import { imageOf, isEquipment } from "@/features/catalog";
 import { formatWeight, fromDisplayWeight, useWeightUnit, type WeightUnit } from "@/features/weight-unit";
 import {
   addSet,
@@ -221,6 +221,7 @@ function WorkoutCard({
             brand={workout.brand}
             src={imageOf(workout.exercise, workout.brand)?.src}
             clip={imageOf(workout.exercise, workout.brand)?.clip}
+            alt={isEquipment(workout.brand) ? `${workout.exercise} ${workout.brand}` : undefined}
             className="h-10 w-14 shrink-0 text-[0.625rem] leading-tight"
           />
           <div className="min-w-0 flex-1">

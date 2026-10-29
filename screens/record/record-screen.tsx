@@ -12,6 +12,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import {
+  KINDS,
   PARTS,
   brandsIn,
   categoriesOf,
@@ -20,6 +21,12 @@ import {
   hasVideo,
   howToSteps,
   imageOf,
+  isEquipment,
+  equipmentOf,
+  freeWeightExercises,
+  partsOf,
+  type Equipment,
+  type ExerciseKind,
   type MachineCategory,
 } from "@/features/catalog";
 import { formatWeight, fromDisplayWeight, useWeightUnit, type WeightUnit } from "@/features/weight-unit";
@@ -93,11 +100,16 @@ function ExercisePicker({
   onBack?: () => void;
   onSelect: (selection: RecordSelection) => void;
 }) {
+  const selectedEquipment = selected && isEquipment(selected.brand) ? selected.brand : null;
+  const [kind, setKind] = useState<ExerciseKind>(selectedEquipment ? "Free Weight" : "Machine");
   const [part, setPart] = useState(selected?.part ?? PARTS[0]);
-  const [exercise, setExercise] = useState(selected?.exercise ?? exercisesOf(part)[0]);
-  const [category, setCategory] = useState<MachineCategory>(() =>
-    selected ? categoryOf(selected.exercise, selected.brand) : categoriesOf(exercise)[0]
+  const [exercise, setExercise] = useState(() =>
+    selected && !selectedEquipment ? selected.exercise : exercisesOf(part)[0]
   );
+  const [category, setCategory] = useState<MachineCategory>(() =>
+    selected && !selectedEquipment ? categoryOf(selected.exercise, selected.brand) : categoriesOf(exercise)[0]
+  );
+  const [equipment, setEquipment] = useState<Equipment>(selectedEquipment ?? equipmentOf(part)[0]);
 
   return (
     <Card>
@@ -108,6 +120,23 @@ function ExercisePicker({
             돌아가기
           </Button>
         )}
+        <section className="flex flex-col gap-2">
+          <h2 className="text-xs font-medium text-muted-foreground">분류</h2>
+          <ToggleGroup
+            variant="outline"
+            spacing={1}
+            className="flex-wrap"
+            aria-label="분류"
+            value={[kind]}
+            onValueChange={(value) => value[0] && setKind(value[0] as ExerciseKind)}
+          >
+            {KINDS.map((name) => (
+              <ToggleGroupItem key={name} value={name}>
+                {name}
+              </ToggleGroupItem>
+            ))}
+          </ToggleGroup>
+        </section>
         <section className="flex flex-col gap-2">
           <h2 className="text-xs font-medium text-muted-foreground">부위</h2>
           <ToggleGroup
@@ -122,77 +151,137 @@ function ExercisePicker({
               setPart(value[0]);
               setExercise(first);
               setCategory(categoriesOf(first)[0]);
+              setEquipment(equipmentOf(value[0])[0]);
             }}
           >
-            {PARTS.map((name) => (
+            {partsOf(kind).map((name) => (
               <ToggleGroupItem key={name} value={name}>
                 {name}
               </ToggleGroupItem>
             ))}
           </ToggleGroup>
         </section>
-        <section className="flex flex-col gap-2">
-          <h2 className="text-xs font-medium text-muted-foreground">종목</h2>
-          <ToggleGroup
-            variant="outline"
-            spacing={1}
-            className="flex-wrap"
-            aria-label="종목"
-            value={[exercise]}
-            onValueChange={(value) => {
-              if (!value[0]) return;
-              setExercise(value[0]);
-              setCategory(categoriesOf(value[0])[0]);
-            }}
-          >
-            {exercisesOf(part).map((name) => (
-              <ToggleGroupItem key={name} value={name}>
-                {name}
-              </ToggleGroupItem>
-            ))}
-          </ToggleGroup>
-        </section>
-        <section className="flex flex-col gap-2">
-          <h2 className="text-xs font-medium text-muted-foreground">머신 카테고리</h2>
-          <ToggleGroup
-            variant="outline"
-            spacing={1}
-            className="flex-wrap"
-            aria-label="머신 카테고리"
-            value={[category]}
-            onValueChange={(value) => value[0] && setCategory(value[0] as MachineCategory)}
-          >
-            {categoriesOf(exercise).map((name) => (
-              <ToggleGroupItem key={name} value={name}>
-                {name}
-              </ToggleGroupItem>
-            ))}
-          </ToggleGroup>
-        </section>
-        <section className="flex flex-col gap-2">
-          <h2 className="text-xs font-medium text-muted-foreground">머신 브랜드</h2>
-          <div className="grid grid-cols-2 gap-2">
-            {brandsIn(exercise, category).map((brand) => {
-              const count = sessionsOf(log, { exercise, brand }).length;
-              const on = selected?.exercise === exercise && selected.brand === brand;
-              return (
-                <button
-                  key={brand}
-                  type="button"
-                  aria-pressed={on}
-                  onClick={() => onSelect({ part, exercise, brand })}
-                  className="flex flex-col gap-1.5 rounded-lg border bg-card p-1.5 text-left outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
-                >
-                  <MachineImage brand={brand} src={imageOf(exercise, brand)?.src} clip={imageOf(exercise, brand)?.clip} className="aspect-[4/3] w-full text-sm" />
-                  <span className="px-0.5 text-sm font-semibold">{brand}</span>
-                  <span className="px-0.5 pb-0.5 text-xs text-muted-foreground">
-                    {count ? `기록 ${count}회` : "기록 없음"}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-        </section>
+        {kind === "Free Weight" ? (
+          <>
+            <section className="flex flex-col gap-2">
+              <h2 className="text-xs font-medium text-muted-foreground">장비</h2>
+              <ToggleGroup
+                variant="outline"
+                spacing={1}
+                className="flex-wrap"
+                aria-label="장비"
+                value={[equipment]}
+                onValueChange={(value) => value[0] && setEquipment(value[0] as Equipment)}
+              >
+                {equipmentOf(part).map((name) => (
+                  <ToggleGroupItem key={name} value={name}>
+                    {name}
+                  </ToggleGroupItem>
+                ))}
+              </ToggleGroup>
+            </section>
+            <section className="flex flex-col gap-2">
+              <h2 className="text-xs font-medium text-muted-foreground">종목</h2>
+              <div role="group" aria-label="프리웨이트 종목" className="grid grid-cols-2 gap-2">
+                {freeWeightExercises(part, equipment).map((name) => {
+                  const on = selected?.exercise === name && selected.brand === equipment;
+                  const count = sessionsOf(log, { exercise: name, brand: equipment }).length;
+                  return (
+                    <button
+                      key={name}
+                      type="button"
+                      aria-label={name}
+                      aria-pressed={on}
+                      onClick={() => onSelect({ part, exercise: name, brand: equipment })}
+                      className="flex flex-col gap-1.5 rounded-lg border bg-card p-1.5 text-left outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
+                    >
+                      <MachineImage
+                        brand={equipment}
+                        alt={`${name} ${equipment}`}
+                        src={imageOf(name, equipment)?.src}
+                        className="aspect-[4/3] w-full text-sm"
+                      />
+                      <span className="px-0.5 text-sm font-semibold">{name}</span>
+                      <span className="px-0.5 pb-0.5 text-xs text-muted-foreground">
+                        {count ? `기록 ${count}회` : "기록 없음"}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </section>
+          </>
+        ) : (
+          <>
+            <section className="flex flex-col gap-2">
+              <h2 className="text-xs font-medium text-muted-foreground">종목</h2>
+              <ToggleGroup
+                variant="outline"
+                spacing={1}
+                className="flex-wrap"
+                aria-label="종목"
+                value={[exercise]}
+                onValueChange={(value) => {
+                  if (!value[0]) return;
+                  setExercise(value[0]);
+                  setCategory(categoriesOf(value[0])[0]);
+                }}
+              >
+                {exercisesOf(part).map((name) => (
+                  <ToggleGroupItem key={name} value={name}>
+                    {name}
+                  </ToggleGroupItem>
+                ))}
+              </ToggleGroup>
+            </section>
+            <section className="flex flex-col gap-2">
+              <h2 className="text-xs font-medium text-muted-foreground">머신 카테고리</h2>
+              <ToggleGroup
+                variant="outline"
+                spacing={1}
+                className="flex-wrap"
+                aria-label="머신 카테고리"
+                value={[category]}
+                onValueChange={(value) => value[0] && setCategory(value[0] as MachineCategory)}
+              >
+                {categoriesOf(exercise).map((name) => (
+                  <ToggleGroupItem key={name} value={name}>
+                    {name}
+                  </ToggleGroupItem>
+                ))}
+              </ToggleGroup>
+            </section>
+            <section className="flex flex-col gap-2">
+              <h2 className="text-xs font-medium text-muted-foreground">머신 브랜드</h2>
+              <div className="grid grid-cols-2 gap-2">
+                {brandsIn(exercise, category).map((brand) => {
+                  const count = sessionsOf(log, { exercise, brand }).length;
+                  const on = selected?.exercise === exercise && selected.brand === brand;
+                  return (
+                    <button
+                      key={brand}
+                      type="button"
+                      aria-pressed={on}
+                      onClick={() => onSelect({ part, exercise, brand })}
+                      className="flex flex-col gap-1.5 rounded-lg border bg-card p-1.5 text-left outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
+                    >
+                      <MachineImage
+                        brand={brand}
+                        src={imageOf(exercise, brand)?.src}
+                        clip={imageOf(exercise, brand)?.clip}
+                        className="aspect-[4/3] w-full text-sm"
+                      />
+                      <span className="px-0.5 text-sm font-semibold">{brand}</span>
+                      <span className="px-0.5 pb-0.5 text-xs text-muted-foreground">
+                        {count ? `기록 ${count}회` : "기록 없음"}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </section>
+          </>
+        )}
       </CardContent>
     </Card>
   );
@@ -265,10 +354,25 @@ function WorkoutPanel({
               brand={video ? `${selected.brand} ${selected.exercise} 영상` : `${selected.brand} ${selected.exercise}`}
               src={imageOf(selected.exercise, selected.brand)?.src}
               clip={imageOf(selected.exercise, selected.brand)?.clip}
+              alt={isEquipment(selected.brand) ? `${selected.exercise} ${selected.brand}` : undefined}
               className="aspect-video w-full text-sm"
             />
+            {isEquipment(selected.brand) && (
+              <p className="text-xs text-muted-foreground">
+                운동 그림: Everkinetic (
+                <a
+                  href="https://creativecommons.org/licenses/by-sa/4.0/"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="underline underline-offset-2"
+                >
+                  CC BY-SA 4.0
+                </a>
+                )
+              </p>
+            )}
             <ol className="flex list-decimal flex-col gap-1 pl-5 text-sm">
-              {howToSteps(selected.exercise).map((step) => (
+              {howToSteps(selected.exercise, selected.brand).map((step) => (
                 <li key={step}>{step}</li>
               ))}
             </ol>

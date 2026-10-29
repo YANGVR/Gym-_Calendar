@@ -3,7 +3,18 @@ import { join } from "node:path";
 
 import { describe, expect, it } from "vitest";
 
-import { BRANDS, PARTS, brandsOf, exercisesOf, hasVideo, howToSteps, imageOf } from "./index";
+import {
+  BRANDS,
+  PARTS,
+  brandsIn,
+  brandsOf,
+  categoriesOf,
+  categoryOf,
+  exercisesOf,
+  hasVideo,
+  howToSteps,
+  imageOf,
+} from "./index";
 
 describe("머신 목록", () => {
   it("다섯 부위마다 머신 종목이 2~3개씩 있다", () => {
@@ -65,5 +76,33 @@ describe("머신 목록", () => {
       }
     }
     expect(missing.sort()).toEqual(["T바 로우|Prime", "레터럴 레이즈|Technogym"]);
+  });
+
+  it("렛풀다운은 선택식 여섯 브랜드와 플레이트식 Gym80으로 나뉜다", () => {
+    expect(categoriesOf("렛풀다운")).toEqual(["선택식", "플레이트식"]);
+    expect(brandsIn("렛풀다운", "플레이트식")).toEqual(["Gym80"]);
+    expect(brandsIn("렛풀다운", "선택식")).toEqual([
+      "Hammer Strength",
+      "Life Fitness",
+      "Technogym",
+      "Cybex",
+      "Prime",
+      "Nautilus",
+    ]);
+    expect(categoryOf("렛풀다운", "Gym80")).toBe("플레이트식");
+  });
+
+  it("카테고리가 하나뿐인 종목은 그 하나만 나온다", () => {
+    expect(categoriesOf("시티드 로우")).toEqual(["선택식"]);
+    expect(categoriesOf("레그 컬")).toEqual(["선택식"]);
+  });
+
+  it("모든 브랜드는 정확히 한 카테고리에 속한다", () => {
+    for (const part of PARTS) {
+      for (const exercise of exercisesOf(part)) {
+        const split = categoriesOf(exercise).flatMap((category) => brandsIn(exercise, category));
+        expect([...split].sort()).toEqual([...brandsOf(exercise)].sort());
+      }
+    }
   });
 });

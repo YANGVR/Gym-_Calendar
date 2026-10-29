@@ -11,7 +11,17 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { PARTS, brandsOf, exercisesOf, hasVideo, howToSteps, imageOf } from "@/features/catalog";
+import {
+  PARTS,
+  brandsIn,
+  categoriesOf,
+  categoryOf,
+  exercisesOf,
+  hasVideo,
+  howToSteps,
+  imageOf,
+  type MachineCategory,
+} from "@/features/catalog";
 import { formatWeight, fromDisplayWeight, useWeightUnit, type WeightUnit } from "@/features/weight-unit";
 import {
   addSet,
@@ -85,6 +95,9 @@ function ExercisePicker({
 }) {
   const [part, setPart] = useState(selected?.part ?? PARTS[0]);
   const [exercise, setExercise] = useState(selected?.exercise ?? exercisesOf(part)[0]);
+  const [category, setCategory] = useState<MachineCategory>(() =>
+    selected ? categoryOf(selected.exercise, selected.brand) : categoriesOf(exercise)[0]
+  );
 
   return (
     <Card>
@@ -105,8 +118,10 @@ function ExercisePicker({
             value={[part]}
             onValueChange={(value) => {
               if (!value[0]) return;
+              const first = exercisesOf(value[0])[0];
               setPart(value[0]);
-              setExercise(exercisesOf(value[0])[0]);
+              setExercise(first);
+              setCategory(categoriesOf(first)[0]);
             }}
           >
             {PARTS.map((name) => (
@@ -124,7 +139,11 @@ function ExercisePicker({
             className="flex-wrap"
             aria-label="종목"
             value={[exercise]}
-            onValueChange={(value) => value[0] && setExercise(value[0])}
+            onValueChange={(value) => {
+              if (!value[0]) return;
+              setExercise(value[0]);
+              setCategory(categoriesOf(value[0])[0]);
+            }}
           >
             {exercisesOf(part).map((name) => (
               <ToggleGroupItem key={name} value={name}>
@@ -134,9 +153,26 @@ function ExercisePicker({
           </ToggleGroup>
         </section>
         <section className="flex flex-col gap-2">
+          <h2 className="text-xs font-medium text-muted-foreground">머신 카테고리</h2>
+          <ToggleGroup
+            variant="outline"
+            spacing={1}
+            className="flex-wrap"
+            aria-label="머신 카테고리"
+            value={[category]}
+            onValueChange={(value) => value[0] && setCategory(value[0] as MachineCategory)}
+          >
+            {categoriesOf(exercise).map((name) => (
+              <ToggleGroupItem key={name} value={name}>
+                {name}
+              </ToggleGroupItem>
+            ))}
+          </ToggleGroup>
+        </section>
+        <section className="flex flex-col gap-2">
           <h2 className="text-xs font-medium text-muted-foreground">머신 브랜드</h2>
           <div className="grid grid-cols-2 gap-2">
-            {brandsOf(exercise).map((brand) => {
+            {brandsIn(exercise, category).map((brand) => {
               const count = sessionsOf(log, { exercise, brand }).length;
               const on = selected?.exercise === exercise && selected.brand === brand;
               return (

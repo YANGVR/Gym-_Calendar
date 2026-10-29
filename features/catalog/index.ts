@@ -1,1 +1,15 @@
-export { BRANDS, PARTS, brandsOf, exercisesOf, hasVideo, howToSteps, imageOf, partOf } from "./data";
+export {
+  BRANDS,
+  CATEGORIES,
+  PARTS,
+  brandsIn,
+  brandsOf,
+  categoriesOf,
+  categoryOf,
+  exercisesOf,
+  hasVideo,
+  howToSteps,
+  imageOf,
+  partOf,
+  type MachineCategory,
+} from "./data";

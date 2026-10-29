@@ -220,6 +220,29 @@ const IMAGES: Record<string, { src: string; clip?: string }> = {
   "트라이셉스 익스텐션|Life Fitness": { src: "/machines/triceps-extension-life-fitness.png" },
 };
 
+export const CATEGORIES = ["선택식", "플레이트식"] as const;
+export type MachineCategory = (typeof CATEGORIES)[number];
+
+/**
+ * 원판을 끼우는 플레이트식 조합(종목|브랜드). 여기 없는 조합은 핀을 꽂는 선택식이다.
+ * 브랜드 공식 사이트와 판매처의 제품 정보를 보고 나눴다.
+ */
+const PLATE_LOADED = new Set<string>([
+  "체스트 프레스|Gym80",
+  "인클라인 프레스|Hammer Strength",
+  "인클라인 프레스|Gym80",
+  "렛풀다운|Gym80",
+  "T바 로우|Hammer Strength",
+  "T바 로우|Gym80",
+  "숄더 프레스|Hammer Strength",
+  "숄더 프레스|Prime",
+  "레터럴 레이즈|Gym80",
+  "레그 프레스|Hammer Strength",
+  "레그 프레스|Gym80",
+  "레그 프레스|Prime",
+  "트라이셉스 익스텐션|Gym80",
+]);
+
 function findExercise(exercise: string): ExerciseEntry | undefined {
   for (const entries of Object.values(CATALOG)) {
     const found = entries.find((entry) => entry.name === exercise);
@@ -253,4 +276,20 @@ export function howToSteps(exercise: string): string[] {
 /** 종목·브랜드 조합의 머신 이미지. 아직 구하지 못한 조합은 undefined이고, 화면은 자리표시 이미지를 보여준다. */
 export function imageOf(exercise: string, brand: string): { src: string; clip?: string } | undefined {
   return IMAGES[`${exercise}|${brand}`];
+}
+
+/** 종목·브랜드 조합의 머신 카테고리. */
+export function categoryOf(exercise: string, brand: string): MachineCategory {
+  return PLATE_LOADED.has(`${exercise}|${brand}`) ? "플레이트식" : "선택식";
+}
+
+/** 종목에서 고를 수 있는 머신 카테고리(브랜드가 하나라도 있는 것만, 선택식이 먼저). */
+export function categoriesOf(exercise: string): MachineCategory[] {
+  const brands = brandsOf(exercise);
+  return CATEGORIES.filter((category) => brands.some((brand) => categoryOf(exercise, brand) === category));
+}
+
+/** 종목의 한 카테고리에 속한 브랜드. */
+export function brandsIn(exercise: string, category: MachineCategory): string[] {
+  return brandsOf(exercise).filter((brand) => categoryOf(exercise, brand) === category);
 }

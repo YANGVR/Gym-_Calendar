@@ -19,6 +19,10 @@ const FREE_WEIGHT: Record<string, Record<Equipment, FreeWeightEntry[]>> = {
         steps: ["벤치를 30~45도로 올리고 덤벨을 윗가슴 옆에 둡니다.", "팔꿈치를 몸에서 살짝 벌려 위로 밀어 올립니다.", "내릴 때 덤벨이 흔들리지 않게 천천히 내립니다."],
       },
       {
+        name: "디클라인 프레스",
+        steps: ["벤치를 아래로 기울여 발을 고정하고 덤벨을 가슴 옆에 둡니다.", "아랫가슴 쪽으로 덤벨을 밀어 올립니다.", "덤벨이 흔들리지 않게 천천히 내립니다."],
+      },
+      {
         name: "플라이",
         steps: ["벤치에 누워 팔꿈치를 살짝 굽힌 채 덤벨을 위로 듭니다.", "팔을 큰 원을 그리듯 옆으로 벌려 내립니다.", "가슴 힘으로 덤벨을 다시 모아 올립니다."],
       },
@@ -248,6 +252,7 @@ export function freeWeightSteps(exercise: string, equipment: Equipment): string[
 const FREE_WEIGHT_IMAGES: Record<string, string> = {
   "Dumbbell|벤치 프레스": "/free-weight/dumbbell-bench-press.png",
   "Dumbbell|인클라인 프레스": "/free-weight/dumbbell-incline-press.png",
+  "Dumbbell|디클라인 프레스": "/free-weight/dumbbell-decline-press.png",
   "Dumbbell|플라이": "/free-weight/dumbbell-fly.png",
   "Dumbbell|벤트오버 로우": "/free-weight/dumbbell-bent-over-row.png",
   "Dumbbell|덤벨 풀오버": "/free-weight/dumbbell-pullover.png",

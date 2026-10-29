@@ -158,7 +158,7 @@ describe("운동 고르기: Free Weight", () => {
     ]);
     expect(
       cardNames(screen.getByRole("group", { name: "프리웨이트 종목" })),
-    ).toEqual(["벤치 프레스", "인클라인 프레스", "플라이"]);
+    ).toEqual(["벤치 프레스", "인클라인 프레스", "디클라인 프레스", "플라이"]);
 
     fireEvent.click(
       within(screen.getByRole("group", { name: "장비" })).getByRole("button", {

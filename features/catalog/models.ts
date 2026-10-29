@@ -47,6 +47,16 @@ export const MODELS: Record<string, MachineModel[]> = {
     { name: "Axiom Series Chest Press", category: "Pin", src: "/machines/chest-press-life-fitness-axiom.jpg" },
   ],
   "체스트 프레스|Technogym": [{ name: "Selection Chest Press", category: "Pin", src: "/machines/chest-press-technogym.png" }],
+  "디클라인 프레스|Hammer Strength": [
+    { name: "Plate-Loaded Iso-Lateral Decline Press", category: "Plate", src: "/machines/decline-press-hammer-strength-plate.jpg" },
+    { name: "MTS Iso-Lateral Decline Press", category: "Pin", src: "/machines/decline-press-hammer-strength-mts.jpg" },
+  ],
+  "디클라인 프레스|Life Fitness": [
+    { name: "Signature Series Plate-Loaded Decline Chest Press", category: "Plate", src: "/machines/decline-press-life-fitness-signature.jpg" },
+  ],
+  "디클라인 프레스|Gym80": [
+    { name: "Pure Kraft-Strong Decline Bench Press Dual", category: "Plate", src: "/machines/decline-press-gym80-pure-kraft.jpg" },
+  ],
   "인클라인 프레스|Gym80": [{ name: "Pure Kraft Incline Chest Press", category: "Plate", src: "/machines/incline-press-gym80.png" }],
   "인클라인 프레스|Cybex": [{ name: "Eagle Incline Press", category: "Pin", src: "/machines/incline-press-cybex.jpg", clip: "polygon(0 0, 100% 0, 100% 90%, 60% 90%, 60% 100%, 0 100%)" }],
   "인클라인 프레스|Hammer Strength": [{ name: "Iso-Lateral Incline Press", category: "Plate", src: "/machines/incline-press-hammer-strength.jpg" }],

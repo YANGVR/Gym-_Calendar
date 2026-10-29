@@ -48,6 +48,15 @@ export const CATALOG: Record<string, ExerciseEntry[]> = {
         "돌아올 때 가슴이 늘어나는 느낌을 확인합니다.",
       ],
     },
+    {
+      name: "디클라인 프레스",
+      brands: ["Hammer Strength", "Life Fitness", "Gym80"],
+      steps: [
+        "시트에 등을 붙이고 손잡이가 아랫가슴 높이에 오게 합니다.",
+        "대각선 아래쪽으로 팔을 밀어냅니다.",
+        "팔꿈치를 완전히 펴기 직전에 멈추고 천천히 돌아옵니다.",
+      ],
+    },
   ],
   등: [
     {

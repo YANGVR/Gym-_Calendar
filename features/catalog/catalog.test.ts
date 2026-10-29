@@ -24,11 +24,11 @@ import {
 } from "./index";
 
 describe("머신 목록", () => {
-  it("다섯 부위마다 머신 종목이 2~3개씩 있다", () => {
+  it("다섯 부위마다 머신 종목이 2~4개씩 있다", () => {
     expect(PARTS).toEqual(["가슴", "등", "어깨", "하체", "팔"]);
     for (const part of PARTS) {
       expect(exercisesOf(part).length).toBeGreaterThanOrEqual(2);
-      expect(exercisesOf(part).length).toBeLessThanOrEqual(3);
+      expect(exercisesOf(part).length).toBeLessThanOrEqual(4);
     }
   });
 
@@ -175,7 +175,7 @@ describe("머신 목록", () => {
     expect(partOfCombo("렛풀다운", "Barbell")).toBeUndefined();
   });
 
-  it("프리웨이트 운동 40개 모두 사진 파일이 있다", () => {
+  it("프리웨이트 운동 41개 모두 사진 파일이 있다", () => {
     let total = 0;
     for (const part of PARTS) {
       for (const equipment of EQUIPMENT) {
@@ -187,7 +187,7 @@ describe("머신 목록", () => {
         }
       }
     }
-    expect(total).toBe(40);
+    expect(total).toBe(41);
   });
 
   it("Cable은 부위마다 2~3개 운동이 있고, 그 조합의 부위를 찾는다", () => {

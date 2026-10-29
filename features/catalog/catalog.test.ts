@@ -117,18 +117,13 @@ describe("머신 목록", () => {
     expect(brandsIn("체스트 프레스", "Pin")).toContain("Hammer Strength");
   });
 
-  it("렛풀다운은 Pin 여섯 브랜드와 Plate Gym80으로 나뉜다", () => {
+  it("렛풀다운은 모든 브랜드에 Pin 모델이 있고, Plate 모델이 있는 브랜드는 따로 나뉜다", () => {
     expect(categoriesOf("렛풀다운")).toEqual(["Pin", "Plate"]);
-    expect(brandsIn("렛풀다운", "Plate")).toEqual(["Gym80"]);
-    expect(brandsIn("렛풀다운", "Pin")).toEqual([
-      "Hammer Strength",
-      "Life Fitness",
-      "Technogym",
-      "Cybex",
-      "Prime",
-      "Nautilus",
-    ]);
-    expect(modelsOf("렛풀다운", "Gym80").every((model) => model.category === "Plate")).toBe(true);
+    expect(brandsIn("렛풀다운", "Pin")).toEqual(brandsOf("렛풀다운"));
+    expect(brandsIn("렛풀다운", "Plate")).toEqual(["Hammer Strength", "Technogym", "Gym80", "Prime", "Nautilus"]);
+    // Gym80은 Pure Kraft는 Plate, Sygnum은 Pin이라 한 브랜드가 두 카테고리에 나온다.
+    expect(modelsIn("렛풀다운", "Gym80", "Plate").map((m) => m.name)).toEqual(["Pure Kraft Lat Pulldown Dual"]);
+    expect(modelsIn("렛풀다운", "Gym80", "Pin").length).toBeGreaterThan(1);
   });
 
   it("카테고리가 하나뿐인 종목은 그 하나만 나온다", () => {

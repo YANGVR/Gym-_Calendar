@@ -31,20 +31,15 @@ describe("운동 고르기: Machine", () => {
     const categories = screen.getByRole("group", { name: "머신 카테고리" });
     expect(buttonNames(categories)).toEqual(["Pin", "Plate"]);
 
-    // 처음에는 첫 카테고리(Pin)가 골라져 있어 Gym80은 보이지 않는다.
-    expect(
-      screen.getByRole("button", { name: /Hammer Strength/ }),
-    ).toBeInTheDocument();
-    expect(
-      screen.queryByRole("button", { name: /Gym80/ }),
-    ).not.toBeInTheDocument();
+    // 처음에는 첫 카테고리(Pin)가 골라져 있고, Plate 모델이 없는 Life Fitness도 보인다.
+    expect(screen.getByRole("button", { name: /Life Fitness/ })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /Hammer Strength/ })).toBeInTheDocument();
 
     fireEvent.click(within(categories).getByRole("button", { name: "Plate" }));
 
     expect(screen.getByRole("button", { name: /Gym80/ })).toBeInTheDocument();
-    expect(
-      screen.queryByRole("button", { name: /Hammer Strength/ }),
-    ).not.toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /Hammer Strength/ })).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: /Life Fitness/ })).not.toBeInTheDocument();
   });
 
   it("카테고리가 하나뿐인 종목은 그 하나만 보이고 브랜드가 바로 나온다", () => {

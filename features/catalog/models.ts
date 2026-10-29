@@ -17,13 +17,46 @@ export type MachineModel = {
  * 사진은 브랜드 공식 사이트와 판매처의 제품 사진을 내려받아 public/machines에 둔다.
  */
 export const MODELS: Record<string, MachineModel[]> = {
-  "렛풀다운|Hammer Strength": [{ name: "Select Lat Pulldown", category: "Pin", src: "/machines/lat-pulldown-hammer-strength.jpg" }],
-  "렛풀다운|Life Fitness": [{ name: "Insignia Series Pulldown", category: "Pin", src: "/machines/lat-pulldown-life-fitness.jpg" }],
-  "렛풀다운|Technogym": [{ name: "Selection 900 Lat Machine", category: "Pin", src: "/machines/lat-pulldown-technogym.jpg" }],
-  "렛풀다운|Cybex": [{ name: "Prestige VRS Pulldown", category: "Pin", src: "/machines/lat-pulldown-cybex.png", clip: "polygon(0 0, 66.5% 0, 66.5% 45%, 100% 45%, 100% 100%, 0 100%)" }],
-  "렛풀다운|Gym80": [{ name: "Pure Kraft Lat Pulldown Dual", category: "Plate", src: "/machines/lat-pulldown-gym80.png" }],
-  "렛풀다운|Prime": [{ name: "Hybrid Lat Pulldown", category: "Pin", src: "/machines/lat-pulldown-prime.jpg" }],
-  "렛풀다운|Nautilus": [{ name: "Impact Lat Pull Down", category: "Pin", src: "/machines/lat-pulldown-nautilus.png" }],
+  "렛풀다운|Hammer Strength": [
+    { name: "Select Lat Pulldown", category: "Pin", src: "/machines/lat-pulldown-hammer-strength.jpg" },
+    { name: "Plate-Loaded Iso-Lateral Front Lat Pulldown", category: "Plate", src: "/machines/lat-pulldown-hammer-strength-plate-front.jpg" },
+    { name: "Plate-Loaded Iso-Lateral Wide Pulldown", category: "Plate", src: "/machines/lat-pulldown-hammer-strength-plate-wide.jpg" },
+    { name: "MTS Iso-Lateral Front Pulldown", category: "Pin", src: "/machines/lat-pulldown-hammer-strength-mts.jpg" },
+  ],
+  "렛풀다운|Life Fitness": [
+    { name: "Insignia Series Pulldown", category: "Pin", src: "/machines/lat-pulldown-life-fitness.jpg" },
+    { name: "Axiom Series Lat Pulldown", category: "Pin", src: "/machines/lat-pulldown-life-fitness-axiom.jpg" },
+  ],
+  "렛풀다운|Technogym": [
+    { name: "Selection 900 Lat Machine", category: "Pin", src: "/machines/lat-pulldown-technogym.jpg" },
+    { name: "Pure Strength Pulldown", category: "Plate", src: "/machines/lat-pulldown-technogym-pure-strength.jpg" },
+    { name: "Selection 700 Lat Machine", category: "Pin", src: "/machines/lat-pulldown-technogym-selection-700.jpg" },
+    { name: "Artis Lat Machine", category: "Pin", src: "/machines/lat-pulldown-technogym-artis.jpg" },
+  ],
+  "렛풀다운|Cybex": [
+    { name: "Prestige VRS Pulldown", category: "Pin", src: "/machines/lat-pulldown-cybex.png", clip: "polygon(0 0, 66.5% 0, 66.5% 45%, 100% 45%, 100% 100%, 0 100%)" },
+    { name: "Eagle NX Lat Pulldown", category: "Pin", src: "/machines/lat-pulldown-cybex-eagle-nx.jpg" },
+    { name: "Ion Series Lat Pulldown", category: "Pin", src: "/machines/lat-pulldown-cybex-ion.jpg" },
+    { name: "Prestige Strength Total Access Lat Pulldown", category: "Pin", src: "/machines/lat-pulldown-cybex-total-access.jpg" },
+  ],
+  "렛풀다운|Gym80": [
+    { name: "Pure Kraft Lat Pulldown Dual", category: "Plate", src: "/machines/lat-pulldown-gym80.png" },
+    { name: "Sygnum Lat Pulldown Machine", category: "Pin", src: "/machines/lat-pulldown-gym80-sygnum-3020.jpg" },
+    { name: "Sygnum Dual Lat Pulldown", category: "Pin", src: "/machines/lat-pulldown-gym80-sygnum-3044.jpg" },
+    { name: "Sygnum Lat Pull Station", category: "Pin", src: "/machines/lat-pulldown-gym80-sygnum-4116.jpg" },
+  ],
+  "렛풀다운|Prime": [
+    { name: "Hybrid Lat Pulldown", category: "Pin", src: "/machines/lat-pulldown-prime.jpg" },
+    { name: "Evolution Lat Pulldown", category: "Pin", src: "/machines/lat-pulldown-prime-evolution.jpg" },
+    { name: "Plate-Loaded Lat Pulldown", category: "Plate", src: "/machines/lat-pulldown-prime-plate-p104.jpg" },
+    { name: "Plate-Loaded Pulldown", category: "Plate", src: "/machines/lat-pulldown-prime-plate-p127.jpg" },
+  ],
+  "렛풀다운|Nautilus": [
+    { name: "Impact Lat Pull Down", category: "Pin", src: "/machines/lat-pulldown-nautilus.png" },
+    { name: "Instinct Lat Pulldown", category: "Pin", src: "/machines/lat-pulldown-nautilus-instinct.jpg" },
+    { name: "Inspiration Lat Pulldown", category: "Pin", src: "/machines/lat-pulldown-nautilus-inspiration.jpg" },
+    { name: "Leverage Lat Pull Down", category: "Plate", src: "/machines/lat-pulldown-nautilus-leverage.jpg" },
+  ],
   "체스트 프레스|Cybex": [
     { name: "Prestige VRS Chest Press", category: "Pin", src: "/machines/chest-press-cybex.png" },
     { name: "Eagle NX Chest Press", category: "Pin", src: "/machines/chest-press-cybex-eagle-nx.png" },

@@ -1,6 +1,6 @@
 "use client";
 
-import { LogOutIcon, MoonIcon, SunIcon } from "lucide-react";
+import { CalendarDaysIcon, ChartLineIcon, DumbbellIcon, LogOutIcon, MoonIcon, SunIcon, UsersIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
@@ -20,10 +20,10 @@ import { parseRecordLink, recordHref } from "../record-link";
 import { DataGate } from "./data-gate";
 
 const TABS = [
-  { href: "/", label: "기록", title: "헬스 일지" },
-  { href: "/calendar", label: "달력", title: "달력" },
-  { href: "/chart", label: "차트", title: "차트" },
-  { href: "/friends", label: "친구", title: "친구" },
+  { href: "/", label: "기록", title: "헬스 일지", Icon: DumbbellIcon },
+  { href: "/calendar", label: "달력", title: "달력", Icon: CalendarDaysIcon },
+  { href: "/chart", label: "차트", title: "차트", Icon: ChartLineIcon },
+  { href: "/friends", label: "친구", title: "친구", Icon: UsersIcon },
 ];
 
 const isActive = (href: string, pathname: string) =>
@@ -102,9 +102,10 @@ export function AppShell({ children }: { children: ReactNode }) {
             aria-current={isActive(tab.href, pathname) ? "page" : undefined}
             className={cn(
               buttonVariants({ variant: isActive(tab.href, pathname) ? "secondary" : "ghost", size: "lg" }),
-              "lg:rounded-b-none"
+              "max-lg:h-auto max-lg:flex-col max-lg:gap-0.5 max-lg:py-1.5 max-lg:text-xs lg:rounded-b-none"
             )}
           >
+            <tab.Icon aria-hidden className="size-5 lg:size-4" />
             {tab.label}
           </Link>
         ))}
@@ -116,19 +117,14 @@ export function AppShell({ children }: { children: ReactNode }) {
             {stripDate === today ? "오늘 한 운동" : `${formatDateLabel(stripDate)} 한 운동`}
           </h2>
           <div className="flex flex-wrap gap-1.5">
-            <Link
-              href={recordHref(
-                {
-                  ...(onRecord && record?.selected),
-                  date: onRecord ? record?.date : today,
-                  pick: true,
-                },
-                today
-              )}
-              className={cn(buttonVariants({ variant: "outline", size: "sm" }), "border-dashed text-muted-foreground")}
-            >
-              + 운동 추가
-            </Link>
+            {onRecord && (
+              <Link
+                href={recordHref({ ...record?.selected, date: record?.date, pick: true }, today)}
+                className={cn(buttonVariants({ variant: "outline", size: "sm" }), "border-dashed text-muted-foreground")}
+              >
+                + 운동 추가
+              </Link>
+            )}
             {workouts.map((workout) => {
               const active =
                 onRecord &&

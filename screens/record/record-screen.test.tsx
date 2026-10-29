@@ -16,13 +16,13 @@ describe("운동 고르기", () => {
     fireEvent.click(screen.getByRole("button", { name: "등" }));
 
     const categories = screen.getByRole("group", { name: "머신 카테고리" });
-    expect(within(categories).getAllByRole("button").map((b) => b.textContent)).toEqual(["선택식", "플레이트식"]);
+    expect(within(categories).getAllByRole("button").map((b) => b.textContent)).toEqual(["Pin", "Plate"]);
 
-    // 처음에는 첫 카테고리(선택식)가 골라져 있어 Gym80은 보이지 않는다.
+    // 처음에는 첫 카테고리(Pin)가 골라져 있어 Gym80은 보이지 않는다.
     expect(screen.getByRole("button", { name: /Hammer Strength/ })).toBeInTheDocument();
     expect(screen.queryByRole("button", { name: /Gym80/ })).not.toBeInTheDocument();
 
-    fireEvent.click(within(categories).getByRole("button", { name: "플레이트식" }));
+    fireEvent.click(within(categories).getByRole("button", { name: "Plate" }));
 
     expect(screen.getByRole("button", { name: /Gym80/ })).toBeInTheDocument();
     expect(screen.queryByRole("button", { name: /Hammer Strength/ })).not.toBeInTheDocument();
@@ -35,7 +35,7 @@ describe("운동 고르기", () => {
     fireEvent.click(screen.getByRole("button", { name: "시티드 로우" }));
 
     const categories = screen.getByRole("group", { name: "머신 카테고리" });
-    expect(within(categories).getAllByRole("button").map((b) => b.textContent)).toEqual(["선택식"]);
+    expect(within(categories).getAllByRole("button").map((b) => b.textContent)).toEqual(["Pin"]);
     expect(screen.getByRole("button", { name: /Technogym/ })).toBeInTheDocument();
   });
 });

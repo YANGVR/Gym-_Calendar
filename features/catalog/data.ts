@@ -220,11 +220,11 @@ const IMAGES: Record<string, { src: string; clip?: string }> = {
   "트라이셉스 익스텐션|Life Fitness": { src: "/machines/triceps-extension-life-fitness.png" },
 };
 
-export const CATEGORIES = ["선택식", "플레이트식"] as const;
+export const CATEGORIES = ["Pin", "Plate"] as const;
 export type MachineCategory = (typeof CATEGORIES)[number];
 
 /**
- * 원판을 끼우는 플레이트식 조합(종목|브랜드). 여기 없는 조합은 핀을 꽂는 선택식이다.
+ * 원판을 끼우는 Plate 조합(종목|브랜드). 여기 없는 조합은 핀을 꽂는 Pin이다.
  * 브랜드 공식 사이트와 판매처의 제품 정보를 보고 나눴다.
  */
 const PLATE_LOADED = new Set<string>([
@@ -280,10 +280,10 @@ export function imageOf(exercise: string, brand: string): { src: string; clip?: 
 
 /** 종목·브랜드 조합의 머신 카테고리. */
 export function categoryOf(exercise: string, brand: string): MachineCategory {
-  return PLATE_LOADED.has(`${exercise}|${brand}`) ? "플레이트식" : "선택식";
+  return PLATE_LOADED.has(`${exercise}|${brand}`) ? "Plate" : "Pin";
 }
 
-/** 종목에서 고를 수 있는 머신 카테고리(브랜드가 하나라도 있는 것만, 선택식이 먼저). */
+/** 종목에서 고를 수 있는 머신 카테고리(브랜드가 하나라도 있는 것만, Pin이 먼저). */
 export function categoriesOf(exercise: string): MachineCategory[] {
   const brands = brandsOf(exercise);
   return CATEGORIES.filter((category) => brands.some((brand) => categoryOf(exercise, brand) === category));

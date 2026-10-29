@@ -78,10 +78,10 @@ describe("머신 목록", () => {
     expect(missing.sort()).toEqual(["T바 로우|Prime", "레터럴 레이즈|Technogym"]);
   });
 
-  it("렛풀다운은 선택식 여섯 브랜드와 플레이트식 Gym80으로 나뉜다", () => {
-    expect(categoriesOf("렛풀다운")).toEqual(["선택식", "플레이트식"]);
-    expect(brandsIn("렛풀다운", "플레이트식")).toEqual(["Gym80"]);
-    expect(brandsIn("렛풀다운", "선택식")).toEqual([
+  it("렛풀다운은 Pin 여섯 브랜드와 Plate Gym80으로 나뉜다", () => {
+    expect(categoriesOf("렛풀다운")).toEqual(["Pin", "Plate"]);
+    expect(brandsIn("렛풀다운", "Plate")).toEqual(["Gym80"]);
+    expect(brandsIn("렛풀다운", "Pin")).toEqual([
       "Hammer Strength",
       "Life Fitness",
       "Technogym",
@@ -89,12 +89,12 @@ describe("머신 목록", () => {
       "Prime",
       "Nautilus",
     ]);
-    expect(categoryOf("렛풀다운", "Gym80")).toBe("플레이트식");
+    expect(categoryOf("렛풀다운", "Gym80")).toBe("Plate");
   });
 
   it("카테고리가 하나뿐인 종목은 그 하나만 나온다", () => {
-    expect(categoriesOf("시티드 로우")).toEqual(["선택식"]);
-    expect(categoriesOf("레그 컬")).toEqual(["선택식"]);
+    expect(categoriesOf("시티드 로우")).toEqual(["Pin"]);
+    expect(categoriesOf("레그 컬")).toEqual(["Pin"]);
   });
 
   it("모든 브랜드는 정확히 한 카테고리에 속한다", () => {

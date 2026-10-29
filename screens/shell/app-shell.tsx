@@ -45,7 +45,7 @@ export function AppShell({ children }: { children: ReactNode }) {
     <div className="mx-auto flex min-h-dvh w-full max-w-6xl flex-col gap-4 px-4 pt-4">
       <header className="order-1 flex items-center justify-between gap-3">
         <h1 className="flex items-center gap-2 font-heading text-xl font-bold tracking-tight">
-          {onRecord && <Image src="/mascot.png" alt="" width={407} height={299} className="h-12 w-auto" priority />}
+          {onRecord && <Image src="/mascot-dumbbell.png" alt="" width={407} height={299} className="h-12 w-auto" priority />}
           {current.title}
         </h1>
         <div className="flex items-center gap-2">

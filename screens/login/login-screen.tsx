@@ -62,7 +62,7 @@ export function LoginScreen() {
 
   return (
     <div className="flex w-full max-w-sm flex-col items-center gap-4">
-      <Image src="/mascot.png" alt="" width={407} height={299} className="h-24 w-auto" priority />
+      <Image src="/mascot-dumbbell.png" alt="" width={407} height={299} className="h-24 w-auto" priority />
       <Card className="w-full">
         <CardHeader>
           <CardTitle className="text-xl">{signup ? "회원가입" : "로그인"}</CardTitle>

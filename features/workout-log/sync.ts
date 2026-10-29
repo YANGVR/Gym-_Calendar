@@ -11,6 +11,9 @@ export type WorkoutRow = {
   sets: WorkoutSet[] | null;
 };
 
+/** workouts 테이블에서 읽어 오는 칸. */
+export const WORKOUT_COLUMNS = "id,date,part,exercise,brand,model,sets";
+
 export function toRow(workout: Workout): WorkoutRow {
   const { id, date, part, exercise, brand, model, sets } = workout;
   return { id, date, part, exercise, brand, model, sets };

@@ -23,7 +23,11 @@ const TABS = [
   { href: "/", label: "기록", title: "헬스 일지" },
   { href: "/calendar", label: "달력", title: "달력" },
   { href: "/chart", label: "차트", title: "차트" },
+  { href: "/friends", label: "친구", title: "친구" },
 ];
+
+const isActive = (href: string, pathname: string) =>
+  href === "/" ? pathname === "/" : pathname === href || pathname.startsWith(`${href}/`);
 
 export function AppShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
@@ -39,7 +43,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   const record = today ? parseRecordLink(params, today) : null;
   const stripDate = onRecord && record ? record.date : today;
   const workouts = stripDate ? workoutsOn(log, stripDate) : [];
-  const current = TABS.find((tab) => tab.href === pathname) ?? TABS[0];
+  const current = TABS.find((tab) => isActive(tab.href, pathname)) ?? TABS[0];
 
   return (
     <div className="mx-auto flex min-h-dvh w-full max-w-6xl flex-col gap-4 px-4 pt-4">
@@ -89,15 +93,15 @@ export function AppShell({ children }: { children: ReactNode }) {
 
       <nav
         aria-label="화면 이동"
-        className="sticky bottom-0 order-5 -mx-4 grid grid-cols-3 gap-1 border-t bg-background px-4 py-2 lg:static lg:order-2 lg:mx-0 lg:flex lg:border-t-0 lg:border-b lg:px-0 lg:py-0"
+        className="sticky bottom-0 order-5 -mx-4 grid grid-cols-4 gap-1 border-t bg-background px-4 py-2 lg:static lg:order-2 lg:mx-0 lg:flex lg:border-t-0 lg:border-b lg:px-0 lg:py-0"
       >
         {TABS.map((tab) => (
           <Link
             key={tab.href}
             href={tab.href}
-            aria-current={tab.href === pathname ? "page" : undefined}
+            aria-current={isActive(tab.href, pathname) ? "page" : undefined}
             className={cn(
-              buttonVariants({ variant: tab.href === pathname ? "secondary" : "ghost", size: "lg" }),
+              buttonVariants({ variant: isActive(tab.href, pathname) ? "secondary" : "ghost", size: "lg" }),
               "lg:rounded-b-none"
             )}
           >

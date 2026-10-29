@@ -3,7 +3,7 @@ import { useSyncExternalStore } from "react";
 import { createClient } from "@/lib/supabase/client";
 
 import type { Workout } from "./model";
-import { diffWorkouts, fromRow, toRow, type WorkoutRow } from "./sync";
+import { diffWorkouts, fromRow, toRow, WORKOUT_COLUMNS, type WorkoutRow } from "./sync";
 
 export type SyncStatus = "idle" | "saving" | "error";
 
@@ -86,7 +86,7 @@ export async function loadWorkouts() {
   set({ loadError: false });
   const { data, error } = await createClient()
     .from("workouts")
-    .select("id,date,part,exercise,brand,model,sets")
+    .select(WORKOUT_COLUMNS)
     .order("date", { ascending: true });
   loading = false;
   if (error) {
@@ -96,6 +96,17 @@ export async function loadWorkouts() {
   const rows = (data ?? []) as WorkoutRow[];
   confirmed = rows.map(fromRow);
   set({ log: confirmed, loaded: true, loadError: false, sync: "idle" });
+}
+
+/** 친구의 기록을 읽어 온다(읽기 전용). 친구가 아니면 서버가 행을 주지 않아 빈 목록이 온다. */
+export async function fetchWorkoutsOf(userId: string): Promise<Workout[]> {
+  const { data, error } = await createClient()
+    .from("workouts")
+    .select(WORKOUT_COLUMNS)
+    .eq("user_id", userId)
+    .order("date", { ascending: true });
+  if (error) throw error;
+  return ((data ?? []) as WorkoutRow[]).map(fromRow);
 }
 
 /** 로그아웃하거나 계정이 바뀔 때 메모리의 기록을 비운다. 서버의 기록은 그대로다. */

@@ -1,5 +1,6 @@
 export * from "./model";
 export {
+  fetchWorkoutsOf,
   flushWorkouts,
   loadWorkouts,
   resetWorkouts,

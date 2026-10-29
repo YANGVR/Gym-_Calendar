@@ -1,8 +1,8 @@
 import { expect, test, type Page } from "@playwright/test";
 
 // 로그인이 필요한 흐름은 테스트용 계정이 있을 때만 돌린다(실제 Supabase 프로젝트를 쓴다).
-//   E2E_EMAIL=... E2E_PASSWORD=... bun run test:e2e
-const email = process.env.E2E_EMAIL;
+//   E2E_USERNAME=... E2E_PASSWORD=... bun run test:e2e
+const username = process.env.E2E_USERNAME;
 const password = process.env.E2E_PASSWORD;
 
 test("로그인하지 않으면 어느 화면 주소로 들어가도 로그인 화면이 나온다", async ({ page }) => {
@@ -17,23 +17,23 @@ test("로그인하지 않으면 어느 화면 주소로 들어가도 로그인 �
 test("잘못된 입력은 입력 칸 근처에 안내가 나온다", async ({ page }) => {
   await page.goto("/login");
 
-  await page.getByLabel("이메일").fill("abc");
+  await page.getByLabel("아이디").fill("ab");
   await page.getByLabel("비밀번호").fill("123456");
   await page.getByRole("button", { name: "로그인", exact: true }).click();
-  await expect(page.getByText("이메일 형식이 올바르지 않아요.")).toBeVisible();
+  await expect(page.getByText("아이디는 영문, 숫자, 밑줄(_)로 3~20자여야 해요.")).toBeVisible();
 
-  await page.getByLabel("이메일").fill("me@example.com");
+  await page.getByLabel("아이디").fill("yang_1");
   await page.getByLabel("비밀번호").fill("123");
   await page.getByRole("button", { name: "로그인", exact: true }).click();
   await expect(page.getByText("비밀번호는 6자 이상이어야 해요.")).toBeVisible();
 });
 
 test.describe("로그인한 뒤", () => {
-  test.skip(!email || !password, "E2E_EMAIL, E2E_PASSWORD가 없으면 건너뜁니다.");
+  test.skip(!username || !password, "E2E_USERNAME, E2E_PASSWORD가 없으면 건너뜁니다.");
 
   async function login(page: Page) {
     await page.goto("/login");
-    await page.getByLabel("이메일").fill(email!);
+    await page.getByLabel("아이디").fill(username!);
     await page.getByLabel("비밀번호").fill(password!);
     await page.getByRole("button", { name: "로그인", exact: true }).click();
     await expect(page).toHaveURL(/\/$/);

@@ -8,16 +8,16 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { authErrorMessage, validateCredentials, type AuthMode } from "@/features/auth";
+import { authErrorMessage, usernameToEmail, validateCredentials, type AuthMode } from "@/features/auth";
 import { resetWorkouts } from "@/features/workout-log";
 import { createClient } from "@/lib/supabase/client";
 
-type Problem = { field: "email" | "password" | "form"; message: string } | null;
+type Problem = { field: "username" | "password" | "form"; message: string } | null;
 
 export function LoginScreen() {
   const router = useRouter();
   const [mode, setMode] = useState<AuthMode>("login");
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [problem, setProblem] = useState<Problem>(null);
   const [notice, setNotice] = useState<string | null>(null);
@@ -30,7 +30,7 @@ export function LoginScreen() {
     if (pending) return;
     setNotice(null);
 
-    const invalid = validateCredentials(email, password);
+    const invalid = validateCredentials(username, password);
     if (invalid) {
       setProblem(invalid);
       return;
@@ -39,7 +39,7 @@ export function LoginScreen() {
     setPending(true);
 
     const supabase = createClient();
-    const credentials = { email: email.trim(), password };
+    const credentials = { email: usernameToEmail(username), password };
     const { data, error } = signup
       ? await supabase.auth.signUp(credentials)
       : await supabase.auth.signInWithPassword(credentials);
@@ -50,7 +50,7 @@ export function LoginScreen() {
       return;
     }
     if (!data.session) {
-      setNotice("가입은 됐지만 이메일 인증이 필요해요. 메일의 링크를 누른 뒤 로그인해 주세요.");
+      setNotice("가입은 됐지만 로그인이 완료되지 않았어요. 잠시 뒤 로그인해 주세요.");
       setPending(false);
       return;
     }
@@ -67,24 +67,26 @@ export function LoginScreen() {
         <CardHeader>
           <CardTitle className="text-xl">{signup ? "회원가입" : "로그인"}</CardTitle>
           <CardDescription>
-            {signup ? "이메일과 비밀번호로 내 헬스 일지를 만들어요." : "내 헬스 일지를 보려면 로그인해 주세요."}
+            {signup ? "아이디와 비밀번호로 내 헬스 일지를 만들어요." : "내 헬스 일지를 보려면 로그인해 주세요."}
           </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={submit} noValidate className="flex flex-col gap-4">
             <FieldGroup>
-              <Field data-invalid={problem?.field === "email" || undefined}>
-                <FieldLabel htmlFor="email">이메일</FieldLabel>
+              <Field data-invalid={problem?.field === "username" || undefined}>
+                <FieldLabel htmlFor="username">아이디</FieldLabel>
                 <Input
-                  id="email"
-                  type="email"
-                  autoComplete="email"
-                  inputMode="email"
-                  value={email}
-                  aria-invalid={problem?.field === "email" || undefined}
-                  onChange={(event) => setEmail(event.target.value)}
+                  id="username"
+                  type="text"
+                  autoComplete="username"
+                  autoCapitalize="none"
+                  autoCorrect="off"
+                  spellCheck={false}
+                  value={username}
+                  aria-invalid={problem?.field === "username" || undefined}
+                  onChange={(event) => setUsername(event.target.value)}
                 />
-                {problem?.field === "email" && <FieldError>{problem.message}</FieldError>}
+                {problem?.field === "username" && <FieldError>{problem.message}</FieldError>}
               </Field>
               <Field data-invalid={problem?.field === "password" || undefined}>
                 <FieldLabel htmlFor="password">비밀번호</FieldLabel>

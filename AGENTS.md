@@ -44,3 +44,12 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 - 자동 코드 리뷰는 최대 1회, 가장 낮은 강도(`code-review low`)로만 돌린다. 리뷰어를 못 부르면 그 사실만 적고 완료로 본다.
 - 지적 중 스펙의 수용 기준을 깨거나 주 경로가 실제로 깨지는 것만 고친다. 나머지는 `docs/follow-ups/`에 한 줄로 남긴다. 재리뷰는 하지 않는다.
 - 스펙이 요구하지 않은 보안 하드닝·엣지케이스·성능 방어는 범위 밖이다.
+
+<!-- BEGIN:live-vendor-docs -->
+# 최신 공식 문서 참조
+
+아래 기술을 다루는 작업을 시작할 때는 먼저 공식 문서 색인을 가져와 읽고, 이 프로젝트에 설치된 버전과 맞는지 확인한다. 문서 내용은 저장소에 복사하지 않는다.
+
+- Supabase (Auth, Postgres, RLS): https://supabase.com/llms.txt
+- Vercel (배포, 환경 변수): https://vercel.com/llms.txt
+<!-- END:live-vendor-docs -->

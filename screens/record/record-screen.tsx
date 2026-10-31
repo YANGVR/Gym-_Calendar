@@ -14,6 +14,13 @@ import { MachineImage } from "@/components/machine-image";
 import { NumberField } from "@/components/number-field";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import {
@@ -449,6 +456,11 @@ function WorkoutPanel({
   const [log, updateLog] = useWorkoutLog();
   const [unit] = useWeightUnit();
   const [guideOpen, setGuideOpen] = useState(false);
+  const [zoomOpen, setZoomOpen] = useState(false);
+  const image = imageOf(selected.exercise, selected.brand, selected.model);
+  const machineAlt = isEquipment(selected.brand)
+    ? `${selected.exercise} ${selected.brand}`
+    : `${selected.brand} ${selected.model || selected.exercise}`;
 
   const target = { ...selected, date };
   const workout = findWorkout(log, target);
@@ -471,19 +483,52 @@ function WorkoutPanel({
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-wrap items-start justify-between gap-2">
-        <div className="min-w-0 flex-1 basis-40">
-          <h2 className="text-base font-semibold leading-snug">
-            {selected.exercise} · {selected.brand}
-          </h2>
-          {selected.model && (
-            <p className="text-sm font-medium text-muted-foreground">
-              {selected.model}
+        <div className="flex min-w-0 flex-1 basis-56 items-center gap-3">
+          <button
+            type="button"
+            aria-label={`${selected.model || selected.exercise} 이미지 크게 보기`}
+            onClick={() => setZoomOpen(true)}
+            className="shrink-0 cursor-zoom-in rounded-md outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
+          >
+            <MachineImage
+              brand={selected.brand}
+              src={image?.src}
+              clip={image?.clip}
+              alt={machineAlt}
+              className="h-20 w-28 text-xs"
+            />
+          </button>
+          <Dialog open={zoomOpen} onOpenChange={setZoomOpen}>
+            <DialogContent className="sm:max-w-2xl">
+              <DialogHeader>
+                <DialogTitle>{selected.model || selected.exercise}</DialogTitle>
+                <DialogDescription>
+                  {selected.exercise} · {selected.brand}
+                </DialogDescription>
+              </DialogHeader>
+              <MachineImage
+                brand={selected.brand}
+                src={image?.src}
+                clip={image?.clip}
+                alt={machineAlt}
+                className="aspect-square max-h-[70dvh] w-full"
+              />
+            </DialogContent>
+          </Dialog>
+          <div className="min-w-0">
+            <h2 className="text-base font-semibold leading-snug">
+              {selected.exercise} · {selected.brand}
+            </h2>
+            {selected.model && (
+              <p className="text-sm font-medium text-muted-foreground">
+                {selected.model}
+              </p>
+            )}
+            <p className="text-xs text-muted-foreground">
+              {formatDateLabel(date)}
+              {date === today && " · 오늘"} 기록
             </p>
-          )}
-          <p className="text-xs text-muted-foreground">
-            {formatDateLabel(date)}
-            {date === today && " · 오늘"} 기록
-          </p>
+          </div>
         </div>
         <div className="flex gap-1.5">
           <Button

@@ -54,6 +54,7 @@ describe("머신 목록", () => {
       "Precor",
       "Atlantis",
       "Hoist",
+      "Panatta",
     ]);
   });
 
@@ -134,7 +135,7 @@ describe("머신 목록", () => {
 
   it("카테고리가 하나뿐인 종목은 그 하나만 나온다", () => {
     expect(categoriesOf("케이블 크로스오버")).toEqual(["Pin"]);
-    expect(categoriesOf("힙 어브덕션")).toEqual(["Pin"]);
+    expect(categoriesOf("힙 어덕션")).toEqual(["Pin"]);
   });
 
   it("모든 브랜드는 하나 이상의 카테고리에 속한다", () => {

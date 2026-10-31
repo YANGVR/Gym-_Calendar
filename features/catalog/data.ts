@@ -13,6 +13,7 @@ export const BRANDS = [
   "Precor",
   "Atlantis",
   "Hoist",
+  "Panatta",
 ] as const;
 
 type Brand = (typeof BRANDS)[number];
@@ -27,7 +28,7 @@ export const CATALOG: Record<string, ExerciseEntry[]> = {
   가슴: [
     {
       name: "체스트 프레스",
-      brands: ["Hammer Strength", "Life Fitness", "Technogym", "Cybex", "Gym80", "Prime", "Nautilus", "Matrix", "Precor", "Atlantis", "Hoist"],
+      brands: ["Hammer Strength", "Life Fitness", "Technogym", "Cybex", "Gym80", "Prime", "Nautilus", "Matrix", "Precor", "Atlantis", "Hoist", "Panatta"],
       steps: [
         "손잡이가 가슴 중간 높이에 오도록 시트를 맞춥니다.",
         "어깨를 뒤로 모은 채 팔을 앞으로 밀어냅니다.",
@@ -36,7 +37,7 @@ export const CATALOG: Record<string, ExerciseEntry[]> = {
     },
     {
       name: "펙덱 플라이",
-      brands: ["Hammer Strength", "Life Fitness", "Technogym", "Cybex", "Gym80", "Prime", "Nautilus", "Matrix", "Precor", "Atlantis", "Hoist"],
+      brands: ["Hammer Strength", "Life Fitness", "Technogym", "Cybex", "Gym80", "Prime", "Nautilus", "Matrix", "Precor", "Atlantis", "Hoist", "Panatta"],
       steps: [
         "팔꿈치가 어깨 높이가 되도록 시트를 맞춥니다.",
         "가슴을 연 채 두 팔을 앞으로 모읍니다.",
@@ -45,7 +46,7 @@ export const CATALOG: Record<string, ExerciseEntry[]> = {
     },
     {
       name: "인클라인 프레스",
-      brands: ["Hammer Strength", "Life Fitness", "Technogym", "Cybex", "Gym80", "Prime", "Nautilus", "Matrix", "Precor", "Atlantis", "Hoist"],
+      brands: ["Hammer Strength", "Life Fitness", "Technogym", "Cybex", "Gym80", "Prime", "Nautilus", "Matrix", "Precor", "Atlantis", "Hoist", "Panatta"],
       steps: [
         "시트에 등을 붙이고 손잡이가 윗가슴 높이에 오게 합니다.",
         "대각선 위쪽으로 팔을 밀어 올립니다.",
@@ -54,7 +55,7 @@ export const CATALOG: Record<string, ExerciseEntry[]> = {
     },
     {
       name: "디클라인 프레스",
-      brands: ["Hammer Strength", "Life Fitness", "Gym80", "Nautilus", "Matrix", "Precor", "Atlantis", "Hoist"],
+      brands: ["Hammer Strength", "Life Fitness", "Gym80", "Nautilus", "Matrix", "Precor", "Atlantis", "Hoist", "Panatta"],
       steps: [
         "시트에 등을 붙이고 손잡이가 아랫가슴 높이에 오게 합니다.",
         "대각선 아래쪽으로 팔을 밀어냅니다.",
@@ -63,7 +64,7 @@ export const CATALOG: Record<string, ExerciseEntry[]> = {
     },
     {
       name: "스미스 머신 벤치 프레스",
-      brands: ["Hammer Strength", "Life Fitness", "Cybex", "Gym80", "Matrix", "Precor", "Atlantis", "Hoist"],
+      brands: ["Hammer Strength", "Life Fitness", "Cybex", "Gym80", "Matrix", "Precor", "Atlantis", "Hoist", "Panatta"],
       steps: [
         "벤치를 바 아래에 놓고 눈이 바 바로 아래 오도록 누운 뒤 어깨너비보다 넓게 바를 잡고 바를 돌려 랙에서 풉니다.",
         "어깨를 뒤로 모아 가슴을 편 채 바를 가슴 중간 위로 곧게 밀어 올립니다.",
@@ -72,7 +73,7 @@ export const CATALOG: Record<string, ExerciseEntry[]> = {
     },
     {
       name: "케이블 크로스오버",
-      brands: ["Life Fitness", "Technogym", "Cybex", "Gym80", "Prime", "Nautilus", "Matrix", "Precor", "Atlantis", "Hoist"],
+      brands: ["Life Fitness", "Technogym", "Cybex", "Gym80", "Prime", "Nautilus", "Matrix", "Precor", "Atlantis", "Hoist", "Panatta"],
       steps: [
         "양쪽 도르래를 어깨 높이 이상으로 맞추고 손잡이를 잡은 채 한 발을 앞으로 내딛어 상체를 살짝 숙입니다.",
         "팔꿈치를 약간 굽힌 상태로 양팔을 아래 앞쪽으로 모아 가슴 앞에서 두 손을 맞댑니다.",
@@ -83,7 +84,7 @@ export const CATALOG: Record<string, ExerciseEntry[]> = {
   등: [
     {
       name: "렛풀다운",
-      brands: ["Hammer Strength", "Life Fitness", "Technogym", "Cybex", "Gym80", "Prime", "Nautilus", "Matrix", "Precor", "Atlantis", "Hoist"],
+      brands: ["Hammer Strength", "Life Fitness", "Technogym", "Cybex", "Gym80", "Prime", "Nautilus", "Matrix", "Precor", "Atlantis", "Hoist", "Panatta"],
       steps: [
         "무릎 패드를 허벅지에 고정하고 가슴을 살짝 열어 줍니다.",
         "손잡이를 쇄골 쪽으로 당기며 팔꿈치를 몸통 옆으로 내립니다.",
@@ -92,7 +93,7 @@ export const CATALOG: Record<string, ExerciseEntry[]> = {
     },
     {
       name: "시티드 로우",
-      brands: ["Hammer Strength", "Life Fitness", "Technogym", "Cybex", "Gym80", "Prime", "Nautilus", "Matrix", "Precor", "Atlantis", "Hoist"],
+      brands: ["Hammer Strength", "Life Fitness", "Technogym", "Cybex", "Gym80", "Prime", "Nautilus", "Matrix", "Precor", "Atlantis", "Hoist", "Panatta"],
       steps: [
         "가슴 패드에 몸을 붙이고 손잡이를 잡습니다.",
         "견갑골을 모으며 팔꿈치를 뒤로 당깁니다.",
@@ -101,7 +102,7 @@ export const CATALOG: Record<string, ExerciseEntry[]> = {
     },
     {
       name: "T바 로우",
-      brands: ["Hammer Strength", "Technogym", "Cybex", "Gym80", "Prime", "Matrix", "Precor", "Atlantis", "Hoist"],
+      brands: ["Hammer Strength", "Technogym", "Cybex", "Gym80", "Prime", "Matrix", "Precor", "Atlantis", "Hoist", "Panatta"],
       steps: [
         "가슴 패드에 상체를 기대고 손잡이를 잡습니다.",
         "팔꿈치를 몸 옆으로 붙여 뒤로 당깁니다.",
@@ -110,7 +111,7 @@ export const CATALOG: Record<string, ExerciseEntry[]> = {
     },
     {
       name: "하이 로우",
-      brands: ["Hammer Strength", "Life Fitness", "Gym80", "Prime", "Nautilus", "Matrix"],
+      brands: ["Hammer Strength", "Life Fitness", "Gym80", "Prime", "Nautilus", "Matrix", "Panatta"],
       steps: [
         "가슴 패드에 가슴을 붙이고 앉아 발판에 발을 단단히 고정한 뒤 머리 위쪽 손잡이를 잡습니다.",
         "팔꿈치를 몸통 옆으로 끌어내리듯이 손잡이를 아래로 당기며 날개뼈를 모읍니다.",
@@ -119,7 +120,7 @@ export const CATALOG: Record<string, ExerciseEntry[]> = {
     },
     {
       name: "로우 로우",
-      brands: ["Hammer Strength", "Life Fitness", "Technogym", "Gym80", "Nautilus", "Matrix", "Precor", "Atlantis"],
+      brands: ["Hammer Strength", "Life Fitness", "Technogym", "Gym80", "Nautilus", "Matrix", "Precor", "Atlantis", "Panatta"],
       steps: [
         "가슴 패드에 가슴을 기대고 앉아 양손으로 낮은 위치의 손잡이를 잡습니다.",
         "팔꿈치를 뒤로 보내며 손잡이를 배 쪽으로 당겨 날개뼈를 모읍니다.",
@@ -128,7 +129,7 @@ export const CATALOG: Record<string, ExerciseEntry[]> = {
     },
     {
       name: "풀오버 머신",
-      brands: ["Hammer Strength", "Technogym", "Gym80", "Prime", "Nautilus", "Atlantis"],
+      brands: ["Hammer Strength", "Technogym", "Gym80", "Prime", "Nautilus", "Atlantis", "Panatta"],
       steps: [
         "좌석 높이를 맞추고 벨트를 채운 뒤 팔꿈치를 패드에 올리고 시작 자세를 잡습니다.",
         "팔꿈치로 패드를 밀어 팔을 머리 위에서 몸 앞쪽으로 크게 호를 그리며 내립니다.",
@@ -137,7 +138,7 @@ export const CATALOG: Record<string, ExerciseEntry[]> = {
     },
     {
       name: "어시스티드 풀업/딥",
-      brands: ["Hammer Strength", "Life Fitness", "Technogym", "Cybex", "Gym80", "Prime", "Nautilus", "Matrix", "Precor", "Atlantis", "Hoist"],
+      brands: ["Hammer Strength", "Life Fitness", "Technogym", "Cybex", "Gym80", "Prime", "Nautilus", "Matrix", "Precor", "Atlantis", "Hoist", "Panatta"],
       steps: [
         "무릎 패드에 무릎을 올리고 필요한 보조 무게를 설정한 뒤 손잡이를 잡습니다.",
         "가슴을 펴고 팔꿈치를 아래로 당기며 턱이 손잡이 높이에 오도록 몸을 끌어올립니다.",
@@ -146,7 +147,7 @@ export const CATALOG: Record<string, ExerciseEntry[]> = {
     },
     {
       name: "백 익스텐션 머신",
-      brands: ["Hammer Strength", "Life Fitness", "Technogym", "Cybex", "Gym80", "Prime", "Nautilus", "Matrix", "Precor", "Atlantis", "Hoist"],
+      brands: ["Hammer Strength", "Life Fitness", "Technogym", "Cybex", "Gym80", "Prime", "Nautilus", "Matrix", "Precor", "Atlantis", "Hoist", "Panatta"],
       steps: [
         "등받이 패드와 발판 위치를 맞추고 상체를 패드에 기대어 앉습니다.",
         "허리와 등 근육의 힘으로 상체를 천천히 뒤로 젖혀 몸이 곧게 펴지도록 합니다.",
@@ -157,7 +158,7 @@ export const CATALOG: Record<string, ExerciseEntry[]> = {
   어깨: [
     {
       name: "숄더 프레스",
-      brands: ["Hammer Strength", "Life Fitness", "Technogym", "Cybex", "Gym80", "Prime", "Nautilus", "Matrix", "Precor", "Atlantis", "Hoist"],
+      brands: ["Hammer Strength", "Life Fitness", "Technogym", "Cybex", "Gym80", "Prime", "Nautilus", "Matrix", "Precor", "Atlantis", "Hoist", "Panatta"],
       steps: [
         "손잡이가 어깨 높이에 오도록 시트를 맞춥니다.",
         "머리 위로 팔을 밀어 올립니다.",
@@ -166,7 +167,7 @@ export const CATALOG: Record<string, ExerciseEntry[]> = {
     },
     {
       name: "레터럴 레이즈",
-      brands: ["Hammer Strength", "Life Fitness", "Technogym", "Cybex", "Gym80", "Prime", "Nautilus", "Matrix", "Precor", "Hoist"],
+      brands: ["Hammer Strength", "Life Fitness", "Technogym", "Cybex", "Gym80", "Prime", "Nautilus", "Matrix", "Precor", "Hoist", "Panatta"],
       steps: [
         "팔꿈치를 살짝 굽혀 패드 안쪽에 댑니다.",
         "팔을 옆으로 어깨 높이까지 듭니다.",
@@ -175,7 +176,7 @@ export const CATALOG: Record<string, ExerciseEntry[]> = {
     },
     {
       name: "리어 델트 머신",
-      brands: ["Hammer Strength", "Cybex", "Gym80", "Prime", "Nautilus", "Matrix", "Precor", "Atlantis", "Hoist"],
+      brands: ["Hammer Strength", "Cybex", "Gym80", "Prime", "Nautilus", "Matrix", "Precor", "Atlantis", "Hoist", "Panatta"],
       steps: [
         "가슴 패드에 가슴을 붙이고 앉아 손잡이를 어깨 높이로 맞춘 뒤 양손으로 잡습니다.",
         "팔꿈치를 살짝 굽힌 채 양팔을 뒤쪽 옆으로 벌리며 어깨 뒤쪽을 모읍니다.",
@@ -184,7 +185,7 @@ export const CATALOG: Record<string, ExerciseEntry[]> = {
     },
     {
       name: "숄더 슈러그 머신",
-      brands: ["Hammer Strength", "Nautilus", "Atlantis", "Hoist"],
+      brands: ["Hammer Strength", "Nautilus", "Atlantis", "Hoist", "Panatta"],
       steps: [
         "손잡이를 잡고 서거나 앉아 팔을 곧게 편 채 어깨 힘을 뺍니다.",
         "팔을 굽히지 않고 어깨를 귀 쪽으로 수직으로 끌어올려 승모근을 조입니다.",
@@ -193,7 +194,7 @@ export const CATALOG: Record<string, ExerciseEntry[]> = {
     },
     {
       name: "이소 래터럴 숄더 프레스",
-      brands: ["Hammer Strength", "Life Fitness", "Technogym", "Gym80", "Nautilus", "Matrix", "Precor", "Atlantis", "Hoist"],
+      brands: ["Hammer Strength", "Life Fitness", "Technogym", "Gym80", "Nautilus", "Matrix", "Precor", "Atlantis", "Hoist", "Panatta"],
       steps: [
         "등받이에 허리와 등을 붙이고 앉아 양손으로 손잡이를 어깨 높이에서 잡습니다.",
         "양팔이 따로 움직이도록 머리 위쪽으로 팔을 곧게 뻗으며 밀어 올립니다.",
@@ -204,7 +205,7 @@ export const CATALOG: Record<string, ExerciseEntry[]> = {
   하체: [
     {
       name: "레그 프레스",
-      brands: ["Hammer Strength", "Life Fitness", "Technogym", "Cybex", "Gym80", "Prime", "Nautilus", "Matrix", "Precor", "Atlantis", "Hoist"],
+      brands: ["Hammer Strength", "Life Fitness", "Technogym", "Cybex", "Gym80", "Prime", "Nautilus", "Matrix", "Precor", "Atlantis", "Hoist", "Panatta"],
       steps: [
         "등과 엉덩이를 시트에 붙이고 발을 어깨너비로 놓습니다.",
         "무릎이 안으로 모이지 않게 발판을 밉니다.",
@@ -213,7 +214,7 @@ export const CATALOG: Record<string, ExerciseEntry[]> = {
     },
     {
       name: "레그 익스텐션",
-      brands: ["Hammer Strength", "Life Fitness", "Technogym", "Cybex", "Gym80", "Prime", "Nautilus", "Matrix", "Precor", "Atlantis", "Hoist"],
+      brands: ["Hammer Strength", "Life Fitness", "Technogym", "Cybex", "Gym80", "Prime", "Nautilus", "Matrix", "Precor", "Atlantis", "Hoist", "Panatta"],
       steps: [
         "무릎 위치가 기계 축에 맞도록 시트를 조정합니다.",
         "발목 패드를 걸고 무릎을 펴며 다리를 듭니다.",
@@ -222,7 +223,7 @@ export const CATALOG: Record<string, ExerciseEntry[]> = {
     },
     {
       name: "레그 컬",
-      brands: ["Hammer Strength", "Life Fitness", "Technogym", "Cybex", "Gym80", "Prime", "Nautilus", "Matrix", "Precor", "Atlantis", "Hoist"],
+      brands: ["Hammer Strength", "Life Fitness", "Technogym", "Cybex", "Gym80", "Prime", "Nautilus", "Matrix", "Precor", "Atlantis", "Hoist", "Panatta"],
       steps: [
         "무릎이 기계 축에 오도록 맞추고 발목 패드를 겁니다.",
         "뒤꿈치를 엉덩이 쪽으로 당깁니다.",
@@ -231,7 +232,7 @@ export const CATALOG: Record<string, ExerciseEntry[]> = {
     },
     {
       name: "핵 스쿼트",
-      brands: ["Hammer Strength", "Life Fitness", "Technogym", "Cybex", "Gym80", "Prime", "Nautilus", "Matrix", "Precor", "Atlantis", "Hoist"],
+      brands: ["Hammer Strength", "Life Fitness", "Technogym", "Cybex", "Gym80", "Prime", "Nautilus", "Matrix", "Precor", "Atlantis", "Hoist", "Panatta"],
       steps: [
         "발판에 발을 어깨너비로 올리고 등과 어깨를 패드에 단단히 붙인 뒤 안전 핸들을 풉니다.",
         "발로 발판을 밀어 무릎을 펴며 몸을 위로 밀어 올립니다.",
@@ -240,7 +241,7 @@ export const CATALOG: Record<string, ExerciseEntry[]> = {
     },
     {
       name: "힙 어브덕션",
-      brands: ["Hammer Strength", "Life Fitness", "Technogym", "Cybex", "Gym80", "Prime", "Nautilus", "Matrix", "Precor", "Atlantis", "Hoist"],
+      brands: ["Hammer Strength", "Life Fitness", "Technogym", "Cybex", "Gym80", "Prime", "Nautilus", "Matrix", "Precor", "Atlantis", "Hoist", "Panatta"],
       steps: [
         "패드에 등을 기대고 앉아 무릎 바깥쪽을 다리 패드에 대고 시작 폭으로 맞춥니다.",
         "엉덩이 바깥쪽에 힘을 주며 두 다리를 양옆으로 벌립니다.",
@@ -249,7 +250,7 @@ export const CATALOG: Record<string, ExerciseEntry[]> = {
     },
     {
       name: "힙 어덕션",
-      brands: ["Hammer Strength", "Life Fitness", "Technogym", "Cybex", "Gym80", "Prime", "Nautilus", "Matrix", "Precor", "Hoist"],
+      brands: ["Hammer Strength", "Life Fitness", "Technogym", "Cybex", "Gym80", "Prime", "Nautilus", "Matrix", "Precor", "Hoist", "Panatta"],
       steps: [
         "패드에 등을 기대고 앉아 무릎 안쪽을 다리 패드에 대고 두 다리를 벌린 시작 폭으로 맞춥니다.",
         "허벅지 안쪽에 힘을 주며 두 다리를 가운데로 모읍니다.",
@@ -258,7 +259,7 @@ export const CATALOG: Record<string, ExerciseEntry[]> = {
     },
     {
       name: "스탠딩 카프 레이즈",
-      brands: ["Hammer Strength", "Cybex", "Gym80", "Nautilus", "Matrix", "Hoist"],
+      brands: ["Hammer Strength", "Cybex", "Gym80", "Nautilus", "Matrix", "Hoist", "Panatta"],
       steps: [
         "어깨 패드 아래에 서서 발 앞쪽을 발판에 올리고 뒤꿈치는 내려둡니다.",
         "뒤꿈치를 최대한 높이 들어 올리며 종아리를 수축합니다.",
@@ -267,7 +268,7 @@ export const CATALOG: Record<string, ExerciseEntry[]> = {
     },
     {
       name: "시티드 카프 레이즈",
-      brands: ["Hammer Strength", "Life Fitness", "Technogym", "Cybex", "Gym80", "Prime", "Nautilus", "Matrix", "Precor", "Atlantis", "Hoist"],
+      brands: ["Hammer Strength", "Life Fitness", "Technogym", "Cybex", "Gym80", "Prime", "Nautilus", "Matrix", "Precor", "Atlantis", "Hoist", "Panatta"],
       steps: [
         "의자에 앉아 무릎 위에 패드를 맞추고 발 앞쪽을 발판에 올립니다.",
         "발끝으로 밀어 뒤꿈치를 높이 들어 올리며 종아리를 수축합니다.",
@@ -276,7 +277,7 @@ export const CATALOG: Record<string, ExerciseEntry[]> = {
     },
     {
       name: "글루트 머신",
-      brands: ["Hammer Strength", "Life Fitness", "Technogym", "Cybex", "Gym80", "Prime", "Nautilus", "Matrix", "Precor", "Atlantis", "Hoist"],
+      brands: ["Hammer Strength", "Life Fitness", "Technogym", "Cybex", "Gym80", "Prime", "Nautilus", "Matrix", "Precor", "Atlantis", "Hoist", "Panatta"],
       steps: [
         "가슴 패드에 몸을 기대고 한쪽 발을 발판 패드에 올려 엉덩이 높이를 맞춥니다.",
         "엉덩이에 힘을 주며 다리를 뒤쪽으로 곧게 밀어 올립니다.",
@@ -285,7 +286,7 @@ export const CATALOG: Record<string, ExerciseEntry[]> = {
     },
     {
       name: "힙 쓰러스트 머신",
-      brands: ["Hammer Strength", "Life Fitness", "Technogym", "Gym80", "Nautilus", "Matrix", "Precor", "Atlantis", "Hoist"],
+      brands: ["Hammer Strength", "Life Fitness", "Technogym", "Gym80", "Nautilus", "Matrix", "Precor", "Atlantis", "Hoist", "Panatta"],
       steps: [
         "등 윗부분을 패드에 기대고 허리 위쪽에 벨트나 바를 걸쳐 발을 바닥에 둡니다.",
         "엉덩이에 힘을 주어 골반을 위로 밀어 올려 몸통이 일직선이 되게 합니다.",
@@ -296,7 +297,7 @@ export const CATALOG: Record<string, ExerciseEntry[]> = {
   팔: [
     {
       name: "바이셉 컬",
-      brands: ["Hammer Strength", "Life Fitness", "Technogym", "Cybex", "Gym80", "Prime", "Nautilus", "Matrix", "Precor", "Atlantis", "Hoist"],
+      brands: ["Hammer Strength", "Life Fitness", "Technogym", "Cybex", "Gym80", "Prime", "Nautilus", "Matrix", "Precor", "Atlantis", "Hoist", "Panatta"],
       steps: [
         "팔꿈치를 패드에 고정하고 손잡이를 잡습니다.",
         "팔꿈치 위치를 유지한 채 손잡이를 어깨 쪽으로 말아 올립니다.",
@@ -305,7 +306,7 @@ export const CATALOG: Record<string, ExerciseEntry[]> = {
     },
     {
       name: "트라이셉스 익스텐션",
-      brands: ["Hammer Strength", "Life Fitness", "Technogym", "Cybex", "Gym80", "Prime", "Nautilus", "Matrix", "Precor", "Atlantis", "Hoist"],
+      brands: ["Hammer Strength", "Life Fitness", "Technogym", "Cybex", "Gym80", "Prime", "Nautilus", "Matrix", "Precor", "Atlantis", "Hoist", "Panatta"],
       steps: [
         "팔꿈치를 패드에 붙이고 손잡이를 잡습니다.",
         "팔꿈치를 고정한 채 아래로 완전히 펴냅니다.",
@@ -314,7 +315,7 @@ export const CATALOG: Record<string, ExerciseEntry[]> = {
     },
     {
       name: "프리처 컬 머신",
-      brands: ["Hammer Strength", "Life Fitness", "Technogym", "Cybex", "Prime", "Matrix", "Atlantis", "Hoist"],
+      brands: ["Hammer Strength", "Life Fitness", "Technogym", "Cybex", "Prime", "Matrix", "Atlantis", "Hoist", "Panatta"],
       steps: [
         "좌석 높이를 조절해 겨드랑이 아래가 패드 윗면에 닿도록 앉고 손잡이를 잡습니다.",
         "팔꿈치를 패드에 붙인 채 손잡이를 어깨 쪽으로 천천히 말아 올립니다.",
@@ -323,7 +324,7 @@ export const CATALOG: Record<string, ExerciseEntry[]> = {
     },
     {
       name: "트라이셉스 딥 머신",
-      brands: ["Hammer Strength", "Life Fitness", "Technogym", "Cybex", "Gym80", "Nautilus", "Matrix", "Precor", "Hoist"],
+      brands: ["Hammer Strength", "Life Fitness", "Technogym", "Cybex", "Gym80", "Nautilus", "Matrix", "Precor", "Hoist", "Panatta"],
       steps: [
         "좌석 높이를 조절하고 등받이에 기대어 앉아 양손으로 손잡이를 잡습니다.",
         "팔꿈치를 몸 옆에 붙인 채 손잡이를 아래로 끝까지 밀어 내립니다.",
@@ -334,7 +335,7 @@ export const CATALOG: Record<string, ExerciseEntry[]> = {
   복근: [
     {
       name: "어브도미널 크런치 머신",
-      brands: ["Hammer Strength", "Life Fitness", "Technogym", "Cybex", "Gym80", "Prime", "Nautilus", "Matrix", "Precor", "Atlantis", "Hoist"],
+      brands: ["Hammer Strength", "Life Fitness", "Technogym", "Cybex", "Gym80", "Prime", "Nautilus", "Matrix", "Precor", "Atlantis", "Hoist", "Panatta"],
       steps: [
         "등받이에 허리를 붙여 앉고 발받침과 핸들 또는 가슴 패드를 몸에 맞게 잡습니다.",
         "숨을 내쉬며 복근을 수축해 상체를 앞으로 말아 내립니다.",
@@ -343,7 +344,7 @@ export const CATALOG: Record<string, ExerciseEntry[]> = {
     },
     {
       name: "토르소 로테이션 머신",
-      brands: ["Hammer Strength", "Life Fitness", "Technogym", "Cybex", "Gym80", "Prime", "Nautilus", "Matrix", "Precor", "Hoist"],
+      brands: ["Hammer Strength", "Life Fitness", "Technogym", "Cybex", "Gym80", "Prime", "Nautilus", "Matrix", "Precor", "Hoist", "Panatta"],
       steps: [
         "의자에 앉아 무릎과 허벅지를 패드에 고정하고 가슴 패드와 핸들을 잡습니다.",
         "골반은 고정한 채 상체만 한쪽으로 천천히 회전해 옆구리를 수축합니다.",

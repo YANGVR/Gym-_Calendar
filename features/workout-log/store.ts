@@ -84,10 +84,16 @@ export async function loadWorkouts() {
   if (state.loaded || loading) return;
   loading = true;
   set({ loadError: false });
-  const { data, error } = await createClient()
-    .from("workouts")
-    .select(WORKOUT_COLUMNS)
-    .order("date", { ascending: true });
+  const supabase = createClient();
+  const { data: auth } = await supabase.auth.getUser();
+  // 친구의 기록도 읽을 수 있으므로, 내 기록만 달라고 user_id로 좁힌다.
+  const { data, error } = auth.user
+    ? await supabase
+        .from("workouts")
+        .select(WORKOUT_COLUMNS)
+        .eq("user_id", auth.user.id)
+        .order("date", { ascending: true })
+    : { data: null, error: new Error("not_signed_in") };
   loading = false;
   if (error) {
     set({ loadError: true });

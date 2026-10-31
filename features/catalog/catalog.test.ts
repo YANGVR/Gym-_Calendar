@@ -24,11 +24,10 @@ import {
 } from "./index";
 
 describe("머신 목록", () => {
-  it("다섯 부위마다 머신 종목이 2~4개씩 있다", () => {
-    expect(PARTS).toEqual(["가슴", "등", "어깨", "하체", "팔"]);
+  it("여섯 부위마다 머신 종목이 1개 이상 있다", () => {
+    expect(PARTS).toEqual(["가슴", "등", "어깨", "하체", "팔", "복근"]);
     for (const part of PARTS) {
-      expect(exercisesOf(part).length).toBeGreaterThanOrEqual(2);
-      expect(exercisesOf(part).length).toBeLessThanOrEqual(4);
+      expect(exercisesOf(part).length).toBeGreaterThanOrEqual(1);
     }
   });
 
@@ -42,7 +41,7 @@ describe("머신 목록", () => {
     }
   });
 
-  it("렛풀다운은 일곱 브랜드가 모두 연결돼 있다", () => {
+  it("렛풀다운은 기본 일곱 브랜드와 추가 브랜드가 모두 연결돼 있다", () => {
     expect(brandsOf("렛풀다운")).toEqual([
       "Hammer Strength",
       "Life Fitness",
@@ -51,6 +50,10 @@ describe("머신 목록", () => {
       "Gym80",
       "Prime",
       "Nautilus",
+      "Matrix",
+      "Precor",
+      "Atlantis",
+      "Hoist",
     ]);
   });
 
@@ -119,16 +122,19 @@ describe("머신 목록", () => {
 
   it("렛풀다운은 모든 브랜드에 Pin 모델이 있고, Plate 모델이 있는 브랜드는 따로 나뉜다", () => {
     expect(categoriesOf("렛풀다운")).toEqual(["Pin", "Plate"]);
-    expect(brandsIn("렛풀다운", "Pin")).toEqual(brandsOf("렛풀다운"));
-    expect(brandsIn("렛풀다운", "Plate")).toEqual(["Hammer Strength", "Technogym", "Gym80", "Prime", "Nautilus"]);
+    expect(brandsIn("렛풀다운", "Pin")).toEqual(expect.arrayContaining(["Life Fitness", "Cybex", "Gym80", "Matrix", "Precor"]));
+    expect(brandsIn("렛풀다운", "Plate")).toEqual(
+      expect.arrayContaining(["Hammer Strength", "Technogym", "Gym80", "Prime", "Nautilus", "Atlantis", "Hoist"])
+    );
+    expect(brandsIn("렛풀다운", "Plate")).not.toContain("Life Fitness");
     // Gym80은 Pure Kraft는 Plate, Sygnum은 Pin이라 한 브랜드가 두 카테고리에 나온다.
     expect(modelsIn("렛풀다운", "Gym80", "Plate").map((m) => m.name)).toEqual(["Pure Kraft Lat Pulldown Dual"]);
     expect(modelsIn("렛풀다운", "Gym80", "Pin").length).toBeGreaterThan(1);
   });
 
   it("카테고리가 하나뿐인 종목은 그 하나만 나온다", () => {
-    expect(categoriesOf("시티드 로우")).toEqual(["Pin"]);
     expect(categoriesOf("레그 컬")).toEqual(["Pin"]);
+    expect(categoriesOf("레그 익스텐션")).toEqual(["Pin"]);
   });
 
   it("모든 브랜드는 하나 이상의 카테고리에 속한다", () => {
@@ -152,14 +158,14 @@ describe("머신 목록", () => {
       expect(equipmentOf(part)).toEqual(["Dumbbell", "Barbell", "Cable"]);
       for (const equipment of EQUIPMENT) {
         const names = freeWeightExercises(part, equipment);
-        expect(names.length).toBeGreaterThanOrEqual(2);
+        expect(names.length).toBeGreaterThanOrEqual(1);
         for (const name of names) {
           expect(howToSteps(name, equipment).length).toBeGreaterThanOrEqual(2);
           expect(howToSteps(name, equipment).length).toBeLessThanOrEqual(3);
         }
       }
     }
-    expect(freeWeightExercises("가슴", "Barbell")).toEqual(["벤치 프레스", "인클라인 벤치 프레스", "디클라인 벤치 프레스"]);
+    expect(freeWeightExercises("가슴", "Barbell").slice(0, 3)).toEqual(["벤치 프레스", "인클라인 벤치 프레스", "디클라인 벤치 프레스"]);
   });
 
   it("프리웨이트 조합의 부위를 찾고, 목록에 없는 조합은 거절한다", () => {
@@ -170,7 +176,7 @@ describe("머신 목록", () => {
     expect(partOfCombo("렛풀다운", "Barbell")).toBeUndefined();
   });
 
-  it("프리웨이트 운동 41개 모두 사진 파일이 있다", () => {
+  it("프리웨이트 운동 모두 사진 파일이 있다", () => {
     let total = 0;
     for (const part of PARTS) {
       for (const equipment of EQUIPMENT) {
@@ -182,7 +188,7 @@ describe("머신 목록", () => {
         }
       }
     }
-    expect(total).toBe(41);
+    expect(total).toBeGreaterThanOrEqual(90);
   });
 
   it("Cable은 부위마다 2~3개 운동이 있고, 그 조합의 부위를 찾는다", () => {

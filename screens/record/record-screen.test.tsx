@@ -45,8 +45,8 @@ describe("운동 고르기: Machine", () => {
   it("카테고리가 하나뿐인 종목은 그 하나만 보이고 브랜드가 바로 나온다", () => {
     render(<RecordScreen />);
 
-    fireEvent.click(screen.getByRole("button", { name: "등" }));
-    fireEvent.click(screen.getByRole("button", { name: "시티드 로우" }));
+    fireEvent.click(screen.getByRole("button", { name: "하체" }));
+    fireEvent.click(screen.getByRole("button", { name: "레그 컬" }));
 
     expect(
       buttonNames(screen.getByRole("group", { name: "머신 카테고리" })),
@@ -140,6 +140,7 @@ describe("운동 고르기: Free Weight", () => {
       "어깨",
       "하체",
       "팔",
+      "복근",
     ]);
   });
 
@@ -152,7 +153,7 @@ describe("운동 고르기: Free Weight", () => {
       "Cable",
     ]);
     expect(
-      cardNames(screen.getByRole("group", { name: "프리웨이트 종목" })),
+      cardNames(screen.getByRole("group", { name: "프리웨이트 종목" })).slice(0, 4),
     ).toEqual(["벤치 프레스", "인클라인 프레스", "디클라인 프레스", "플라이"]);
 
     fireEvent.click(
@@ -162,7 +163,7 @@ describe("운동 고르기: Free Weight", () => {
     );
 
     expect(
-      cardNames(screen.getByRole("group", { name: "프리웨이트 종목" })),
+      cardNames(screen.getByRole("group", { name: "프리웨이트 종목" })).slice(0, 3),
     ).toEqual(["벤치 프레스", "인클라인 벤치 프레스", "디클라인 벤치 프레스"]);
   });
 

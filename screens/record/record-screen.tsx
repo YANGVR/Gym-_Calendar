@@ -22,6 +22,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import { InputGroupButton } from "@/components/ui/input-group";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import {
   KINDS,
@@ -94,11 +95,6 @@ export function RecordScreen() {
           }
           selected={selected}
           log={log}
-          onBack={
-            selected
-              ? () => router.replace(recordHref({ ...selected, date }, today))
-              : undefined
-          }
           onSelect={(choice) =>
             router.replace(recordHref({ ...choice, date }, today))
           }
@@ -124,12 +120,10 @@ export function RecordScreen() {
 function ExercisePicker({
   selected,
   log,
-  onBack,
   onSelect,
 }: {
   selected: RecordSelection | null;
   log: ReturnType<typeof useWorkoutLog>[0];
-  onBack?: () => void;
   onSelect: (selection: RecordSelection) => void;
 }) {
   const selectedEquipment =
@@ -161,17 +155,6 @@ function ExercisePicker({
   return (
     <Card>
       <CardContent className="flex flex-col gap-4">
-        {onBack && (
-          <Button
-            variant="outline"
-            size="sm"
-            className="self-start lg:hidden"
-            onClick={onBack}
-          >
-            <ChevronLeftIcon data-icon="inline-start" />
-            돌아가기
-          </Button>
-        )}
         <section className="flex flex-col gap-2">
           <h2 className="text-xs font-medium text-muted-foreground">분류</h2>
           <ToggleGroup
@@ -180,9 +163,11 @@ function ExercisePicker({
             className="flex-wrap"
             aria-label="분류"
             value={[kind]}
-            onValueChange={(value) =>
-              value[0] && setKind(value[0] as ExerciseKind)
-            }
+            onValueChange={(value) => {
+              if (!value[0]) return;
+              setKind(value[0] as ExerciseKind);
+              setOpenBrand(null);
+            }}
           >
             {KINDS.map((name) => (
               <ToggleGroupItem key={name} value={name}>
@@ -270,7 +255,7 @@ function ExercisePicker({
                           model: "",
                         })
                       }
-                      className="flex flex-col gap-1.5 rounded-lg border bg-card p-1.5 text-left outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
+                      className="flex flex-col gap-1.5 rounded-lg border bg-card p-1.5 text-left outline-none focus-visible:ring-3 focus-visible:ring-ring/50 hover:bg-muted aria-pressed:bg-muted"
                     >
                       <MachineImage
                         brand={equipment}
@@ -353,15 +338,13 @@ function ExercisePicker({
                         .length,
                     0,
                   );
-                  const on =
-                    selected?.exercise === exercise && selected.brand === brand;
                   return (
                     <button
                       key={brand}
                       type="button"
-                      aria-pressed={on || openBrand === brand}
+                      aria-pressed={openBrand === brand}
                       onClick={() => setOpenBrand(brand)}
-                      className="flex flex-col gap-0.5 rounded-lg border bg-card p-2.5 text-left outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
+                      className="flex flex-col gap-0.5 rounded-lg border bg-card p-2.5 text-left outline-none focus-visible:ring-3 focus-visible:ring-ring/50 hover:bg-muted aria-pressed:bg-muted"
                     >
                       <span className="text-sm font-semibold">{brand}</span>
                       <span className="text-xs text-muted-foreground">
@@ -407,7 +390,7 @@ function ExercisePicker({
                               model: model.name,
                             })
                           }
-                          className="flex flex-col gap-1.5 rounded-lg border bg-card p-1.5 text-left outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
+                          className="flex flex-col gap-1.5 rounded-lg border bg-card p-1.5 text-left outline-none focus-visible:ring-3 focus-visible:ring-ring/50 hover:bg-muted aria-pressed:bg-muted"
                         >
                           <MachineImage
                             brand={openBrand}
@@ -454,7 +437,7 @@ function WorkoutPanel({
   }) => void;
 }) {
   const [log, updateLog] = useWorkoutLog();
-  const [unit] = useWeightUnit();
+  const [unit, setUnit] = useWeightUnit();
   const [guideOpen, setGuideOpen] = useState(false);
   const [zoomOpen, setZoomOpen] = useState(false);
   const image = imageOf(selected.exercise, selected.brand, selected.model);
@@ -661,6 +644,7 @@ function WorkoutPanel({
             set={set}
             previousSet={previousSets[index]}
             unit={unit}
+            onToggleUnit={() => setUnit(unit === "kg" ? "lb" : "kg")}
             onChange={(patch) =>
               updateLog((current) =>
                 setSetValue(current, { ...target }, index, patch),
@@ -703,6 +687,7 @@ function SetRow({
   set,
   previousSet,
   unit,
+  onToggleUnit,
   onChange,
   onRemove,
 }: {
@@ -710,6 +695,7 @@ function SetRow({
   set: WorkoutSet;
   previousSet: { weightKg: number; reps: number } | undefined;
   unit: WeightUnit;
+  onToggleUnit: () => void;
   onChange: (patch: Partial<WorkoutSet>) => void;
   onRemove: () => void;
 }) {
@@ -724,7 +710,15 @@ function SetRow({
       <NumberField
         label={`${index + 1}세트 무게`}
         value={set.weightKg}
-        suffix={unit}
+        suffix={
+          <InputGroupButton
+            variant="outline"
+            aria-label={`무게 단위 ${unit}. 누르면 ${unit === "kg" ? "lb" : "kg"}로 바꿔요`}
+            onClick={onToggleUnit}
+          >
+            {unit}
+          </InputGroupButton>
+        }
         inputMode="decimal"
         placeholder={
           previousSet ? formatWeight(previousSet.weightKg, unit) : "무게"

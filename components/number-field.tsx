@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 
 import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupText } from "@/components/ui/input-group";
 
@@ -11,7 +11,8 @@ type NumberFieldProps = {
   toText: (value: number | null) => string;
   fromText: (text: string) => number | null;
   onCommit: (value: number | null) => void;
-  suffix: string;
+  /** 입력 오른쪽에 붙는 단위. 문구나 단위를 바꾸는 버튼을 넣을 수 있다. */
+  suffix: ReactNode;
   inputMode: "decimal" | "numeric";
   placeholder?: string;
   /** 바뀌면 입력 문구를 저장된 값에서 다시 만든다(예: 무게 단위 변경). */

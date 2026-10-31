@@ -1,15 +1,22 @@
 "use client";
 
-import { CalendarDaysIcon, ChartLineIcon, DumbbellIcon, LogOutIcon, MoonIcon, SunIcon, UsersIcon } from "lucide-react";
+import {
+  CalendarDaysIcon,
+  ChartLineIcon,
+  ChevronLeftIcon,
+  DumbbellIcon,
+  LogOutIcon,
+  MoonIcon,
+  SunIcon,
+  UsersIcon,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import type { ReactNode } from "react";
 
 import { Button, buttonVariants } from "@/components/ui/button";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { useDarkMode } from "@/features/theme";
-import { useWeightUnit, type WeightUnit } from "@/features/weight-unit";
 import { flushWorkouts, resetWorkouts, useWorkoutLog, useWorkoutSync, workoutsOn } from "@/features/workout-log";
 import { formatDateLabel } from "@/lib/date";
 import { createClient } from "@/lib/supabase/client";
@@ -36,7 +43,6 @@ export function AppShell({ children }: { children: ReactNode }) {
   const params = useSearchParams();
   const today = useToday();
   const [log] = useWorkoutLog();
-  const [unit, setUnit] = useWeightUnit();
   const [dark, toggleDark] = useDarkMode();
 
   const onRecord = pathname === "/";
@@ -45,13 +51,35 @@ export function AppShell({ children }: { children: ReactNode }) {
   const workouts = stripDate ? workoutsOn(log, stripDate) : [];
   const current = TABS.find((tab) => isActive(tab.href, pathname)) ?? TABS[0];
 
+  // 좁은 화면에서 운동을 고른 뒤 세트를 입력하는 중이면, 한 단계 앞인 운동 고르기로 돌아간다.
+  // 그 밖에는 브라우저의 뒤로 가기와 같고, 이전 화면이 없으면 기록 화면으로 간다.
+  function goBack() {
+    const narrow = !window.matchMedia("(min-width: 1024px)").matches;
+    if (onRecord && narrow && today && record?.selected && !record.pick) {
+      router.replace(recordHref({ ...record.selected, date: record.date, pick: true }, today));
+      return;
+    }
+    if (window.history.length > 1) router.back();
+    else router.push("/");
+  }
+
   return (
     <div className="mx-auto flex min-h-dvh w-full max-w-6xl flex-col gap-4 px-4 pt-4">
       <header className="order-1 flex items-center justify-between gap-3">
-        <h1 className="flex items-center gap-2 font-heading text-xl font-bold tracking-tight">
-          {onRecord && <Image src="/mascot-dumbbell.png" alt="" width={407} height={299} className="h-12 w-auto" priority />}
-          {current.title}
-        </h1>
+        <div className="flex min-w-0 items-center gap-2">
+          <Button
+            variant="outline"
+            size="icon"
+            aria-label="뒤로 가기"
+            onClick={goBack}
+          >
+            <ChevronLeftIcon />
+          </Button>
+          <h1 className="flex items-center gap-2 font-heading text-xl font-bold tracking-tight">
+            {onRecord && <Image src="/mascot-dumbbell.png" alt="" width={407} height={299} className="h-12 w-auto" priority />}
+            {current.title}
+          </h1>
+        </div>
         <div className="flex items-center gap-2">
           {sync === "saving" && (
             <span role="status" className="text-xs text-muted-foreground">
@@ -63,15 +91,6 @@ export function AppShell({ children }: { children: ReactNode }) {
               저장 실패 · 다시 시도
             </Button>
           )}
-          <ToggleGroup
-            variant="outline"
-            aria-label="무게 단위"
-            value={[unit]}
-            onValueChange={(value) => value[0] && setUnit(value[0] as WeightUnit)}
-          >
-            <ToggleGroupItem value="kg">kg</ToggleGroupItem>
-            <ToggleGroupItem value="lb">lb</ToggleGroupItem>
-          </ToggleGroup>
           <Button variant="outline" size="icon" aria-label="다크모드 전환" onClick={toggleDark}>
             {dark ? <SunIcon /> : <MoonIcon />}
           </Button>
@@ -111,7 +130,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         ))}
       </nav>
 
-      {today && (
+      {today && onRecord && (
         <section aria-label="운동 목록" className="order-3 flex flex-col gap-2">
           <h2 className="text-xs font-medium text-muted-foreground">
             {stripDate === today ? "오늘 한 운동" : `${formatDateLabel(stripDate)} 한 운동`}

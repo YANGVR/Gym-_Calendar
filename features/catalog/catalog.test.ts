@@ -133,8 +133,8 @@ describe("머신 목록", () => {
   });
 
   it("카테고리가 하나뿐인 종목은 그 하나만 나온다", () => {
-    expect(categoriesOf("레그 컬")).toEqual(["Pin"]);
-    expect(categoriesOf("레그 익스텐션")).toEqual(["Pin"]);
+    expect(categoriesOf("케이블 크로스오버")).toEqual(["Pin"]);
+    expect(categoriesOf("힙 어브덕션")).toEqual(["Pin"]);
   });
 
   it("모든 브랜드는 하나 이상의 카테고리에 속한다", () => {
@@ -152,11 +152,14 @@ describe("머신 목록", () => {
     expect(partsOf("Free Weight")).toEqual(PARTS);
   });
 
-  it("프리웨이트는 부위마다 Dumbbell, Barbell, Cable 운동 목록이 있고 운동 방법이 2~3줄 있다", () => {
-    expect(EQUIPMENT).toEqual(["Dumbbell", "Barbell", "Cable"]);
+  it("프리웨이트는 부위마다 Dumbbell, Barbell, Cable, Bodyweight 운동 목록이 있고 운동 방법이 2~3줄 있다", () => {
+    expect(EQUIPMENT).toEqual(["Dumbbell", "Barbell", "Cable", "Bodyweight"]);
     for (const part of PARTS) {
-      expect(equipmentOf(part)).toEqual(["Dumbbell", "Barbell", "Cable"]);
-      for (const equipment of EQUIPMENT) {
+      // 운동이 있는 장비만 나온다. 어깨에는 맨몸 운동이 없다.
+      expect(equipmentOf(part)).toEqual(
+        part === "어깨" ? ["Dumbbell", "Barbell", "Cable"] : ["Dumbbell", "Barbell", "Cable", "Bodyweight"]
+      );
+      for (const equipment of equipmentOf(part)) {
         const names = freeWeightExercises(part, equipment);
         expect(names.length).toBeGreaterThanOrEqual(1);
         for (const name of names) {

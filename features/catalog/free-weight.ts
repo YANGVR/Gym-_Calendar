@@ -1,10 +1,10 @@
-export const EQUIPMENT = ["Dumbbell", "Barbell", "Cable"] as const;
+export const EQUIPMENT = ["Dumbbell", "Barbell", "Cable", "Bodyweight"] as const;
 export type Equipment = (typeof EQUIPMENT)[number];
 
 type FreeWeightEntry = { name: string; steps: string[] };
 
 /**
- * 프리웨이트 대표 운동. 부위는 머신과 같고, 장비(Dumbbell, Barbell, Cable)별로 나눈다.
+ * 프리웨이트 대표 운동. 부위는 머신과 같고, 장비(Dumbbell, Barbell, Cable, Bodyweight)별로 나눈다.
  * 기록에서는 장비 이름이 머신 브랜드 자리에 들어가서, 같은 운동이라도 장비가 다르면 따로 기록한다.
  */
 const FREE_WEIGHT: Record<string, Record<Equipment, FreeWeightEntry[]>> = {
@@ -75,6 +75,20 @@ const FREE_WEIGHT: Record<string, Record<Equipment, FreeWeightEntry[]>> = {
         steps: ["벤치를 30~45도로 올리고 양손으로 케이블 손잡이를 잡습니다.", "팔꿈치를 살짝 굽힌 채 팔을 위로 모읍니다.", "천천히 벌려 내립니다."],
       },
     ],
+    Bodyweight: [
+      {
+        name: "푸시업",
+        steps: ["손을 어깨너비보다 조금 넓게 짚고 몸을 일직선으로 만듭니다.", "가슴이 바닥에 가까워지도록 팔꿈치를 굽혀 내려갑니다.", "가슴 힘으로 바닥을 밀어 올라옵니다."],
+      },
+      {
+        name: "발 올린 푸시업",
+        steps: ["발을 벤치 위에 올리고 손을 바닥에 짚어 몸을 일직선으로 만듭니다.", "윗가슴 쪽으로 몸을 천천히 내립니다.", "바닥을 밀어 시작 자세로 올라옵니다."],
+      },
+      {
+        name: "체스트 딥",
+        steps: ["평행봉을 잡고 팔을 펴 몸을 들어 올린 뒤 상체를 앞으로 기울입니다.", "팔꿈치를 굽혀 가슴이 늘어나도록 내려갑니다.", "가슴 힘으로 몸을 밀어 올립니다."],
+      },
+    ],
   },
   등: {
     Dumbbell: [
@@ -121,6 +135,32 @@ const FREE_WEIGHT: Record<string, Record<Equipment, FreeWeightEntry[]>> = {
       {
         name: "언더핸드 풀다운",
         steps: ["높은 케이블 바를 손바닥이 몸쪽으로 오게 어깨너비로 잡고 앉습니다.", "팔꿈치를 몸 옆으로 내리며 바를 가슴 위로 당깁니다.", "등이 늘어나도록 천천히 올라옵니다."],
+      },
+    ],
+    Bodyweight: [
+      {
+        name: "풀업",
+        steps: ["어깨너비보다 넓게 철봉을 잡고 매달립니다.", "팔꿈치를 아래로 당기며 턱이 봉 위로 올라오게 합니다.", "천천히 팔을 펴며 내려옵니다."],
+      },
+      {
+        name: "와이드 그립 친업",
+        steps: ["철봉을 넓게 잡고 매달립니다.", "가슴을 열고 팔꿈치를 몸 옆으로 당기며 몸을 끌어올립니다.", "천천히 내려옵니다."],
+      },
+      {
+        name: "내로우 그립 친업",
+        steps: ["손바닥이 마주 보게 좁게 철봉을 잡고 매달립니다.", "팔꿈치를 몸에 붙이며 몸을 끌어올립니다.", "천천히 팔을 펴며 내려옵니다."],
+      },
+      {
+        name: "인버티드 로우",
+        steps: ["낮은 바 아래에 누워 바를 잡고 몸을 일직선으로 만듭니다.", "가슴을 바 쪽으로 당겨 올립니다.", "견갑골을 모았다가 천천히 내려옵니다."],
+      },
+      {
+        name: "슈퍼맨",
+        steps: ["바닥에 엎드려 팔과 다리를 길게 뻗습니다.", "팔과 다리를 동시에 들어 올려 등 아래쪽에 힘을 줍니다.", "잠깐 멈추고 천천히 내립니다."],
+      },
+      {
+        name: "하이퍼 익스텐션",
+        steps: ["하이퍼 익스텐션 벤치에 골반을 걸치고 상체를 숙입니다.", "허리를 편 채 상체를 몸이 일직선이 될 때까지 올립니다.", "천천히 내려옵니다."],
       },
     ],
   },
@@ -202,6 +242,16 @@ const FREE_WEIGHT: Record<string, Record<Equipment, FreeWeightEntry[]>> = {
         name: "벤트오버 레터럴 레이즈",
         steps: ["상체를 숙이고 양손으로 케이블을 교차해 잡습니다.", "팔꿈치를 살짝 굽힌 채 팔을 옆으로 들어 올립니다.", "천천히 모아 돌아옵니다."],
       },
+      {
+        name: "케이블 페이스 풀",
+        steps: ["양쪽 높은 풀리에 손잡이(또는 로프)를 걸고 마주 보고 서서, 팔을 머리 높이로 뻗어 잡습니다.", "팔꿈치를 어깨 높이 이상으로 유지한 채 손을 얼굴과 머리 양옆으로 당깁니다.", "후면 어깨에 힘을 준 채 잠깐 멈추고 천천히 팔을 폅니다."],
+      },
+      {
+        name: "하이 케이블 리어 델트 플라이",
+        steps: ["양쪽 높은 풀리에서 손잡이를 반대 손으로 교차해 잡고 가운데 서서, 팔을 머리 높이 앞쪽으로 뻗습니다.", "팔꿈치를 살짝 굽힌 채 양팔을 옆으로 크게 벌려 머리에서 어깨 높이의 일자가 되게 당깁니다.", "후면 어깨를 조인 채 잠깐 멈추고 천천히 돌아옵니다."],
+      },
+    ],
+    Bodyweight: [
     ],
   },
   하체: {
@@ -285,6 +335,24 @@ const FREE_WEIGHT: Record<string, Record<Equipment, FreeWeightEntry[]>> = {
       {
         name: "힙 어덕션",
         steps: ["케이블 머신 옆에서 안쪽 다리를 발목 스트랩에 겁니다.", "다리를 몸 안쪽으로 가로질러 모읍니다.", "천천히 시작 자세로 돌아갑니다."],
+      },
+    ],
+    Bodyweight: [
+      {
+        name: "브릿지",
+        steps: ["바닥에 누워 무릎을 세우고 발을 엉덩이 쪽으로 당깁니다.", "엉덩이를 들어 어깨와 무릎이 일직선이 되게 합니다.", "잠깐 멈추고 천천히 내립니다."],
+      },
+      {
+        name: "레그 리프트",
+        steps: ["바닥이나 벤치에 누워 다리를 곧게 폅니다.", "허리가 뜨지 않게 다리를 들어 올립니다.", "천천히 내립니다."],
+      },
+      {
+        name: "플러터 킥",
+        steps: ["벤치에 엎드리거나 누워 다리를 곧게 폅니다.", "다리를 번갈아 위아래로 짧게 차 올립니다.", "복부와 엉덩이에 힘을 유지합니다."],
+      },
+      {
+        name: "동키 카프 레이즈",
+        steps: ["발끝을 단 위에 올리고 상체를 숙여 몸을 받칩니다.", "발뒤꿈치를 끝까지 들어 올립니다.", "천천히 내려 종아리를 늘립니다."],
       },
     ],
   },
@@ -392,11 +460,11 @@ const FREE_WEIGHT: Record<string, Record<Equipment, FreeWeightEntry[]>> = {
       },
       {
         name: "하이 케이블 컬",
-        steps: ["양쪽 높은 케이블 손잡이를 잡고 팔을 옆으로 폅니다.", "팔꿈치를 어깨 높이에 둔 채 손잡이를 귀 쪽으로 당깁니다.", "천천히 팔을 폅니다."],
+        steps: ["플랫 벤치에 머리를 케이블 쪽으로 두고 누워, 높은 풀리에 건 짧은 바를 손바닥이 얼굴을 향하게 잡고 팔을 머리 위로 뻗습니다.", "바를 얼굴 쪽으로 당기며 팔을 최대한 굽힙니다.", "천천히 시작 자세로 돌아갑니다."],
       },
       {
         name: "오버헤드 컬",
-        steps: ["낮은 케이블 바를 잡고 머리 위로 팔을 듭니다.", "팔꿈치를 고정한 채 바를 이마 쪽으로 말아 내립니다.", "천천히 팔을 폅니다."],
+        steps: ["양쪽 높은 풀리에 손잡이를 달고 가운데 서서, 손바닥이 위를 향하게 잡고 팔을 양옆으로 뻗습니다.", "팔꿈치를 고정한 채 손잡이를 머리 양옆으로 말아 당깁니다.", "이두에 힘을 준 채 잠깐 멈추고 천천히 돌아옵니다."],
       },
       {
         name: "라잉 트라이셉스 익스텐션",
@@ -413,6 +481,60 @@ const FREE_WEIGHT: Record<string, Record<Equipment, FreeWeightEntry[]>> = {
       {
         name: "원암 푸시다운",
         steps: ["높은 케이블 손잡이를 한 손으로 잡고 팔꿈치를 몸에 붙입니다.", "팔꿈치를 고정한 채 손잡이를 아래로 폅니다.", "천천히 올라오고 반대 손으로 반복합니다."],
+      },
+      {
+        name: "라잉 케이블 컬",
+        steps: ["가장 낮은 케이블에 짧은 바를 달고, 발이 케이블 쪽에 닿게 바닥에 눕습니다.", "손바닥이 위를 향하게 바를 잡고 팔꿈치를 몸 옆에 붙인 채 바를 가슴 쪽으로 당깁니다.", "이두에 힘을 준 채 잠깐 멈추고 천천히 돌아옵니다."],
+      },
+      {
+        name: "라잉 클로즈 그립 케이블 컬",
+        steps: ["벤치에 머리를 케이블 쪽으로 두고 누워, 바를 손바닥이 아래로 가게 좁게 잡고 팔을 위로 뻗습니다.", "바를 턱 쪽으로 원을 그리듯 말아 내립니다.", "천천히 시작 자세로 돌아갑니다."],
+      },
+      {
+        name: "원암 스탠딩 케이블 컬",
+        steps: ["낮은 케이블 손잡이를 한 손으로 잡고 옆으로 섭니다.", "팔꿈치를 몸에 붙인 채 손잡이를 어깨 쪽으로 말아 올립니다.", "천천히 내리고 반대 팔도 반복합니다."],
+      },
+      {
+        name: "로프 푸시다운",
+        steps: ["높은 케이블에 로프를 걸고 팔꿈치를 몸에 붙입니다.", "아래로 누르며 로프 끝을 양옆으로 벌립니다.", "천천히 팔을 굽혀 올라옵니다."],
+      },
+      {
+        name: "인클라인 푸시다운",
+        steps: ["벤치를 눕히고 높은 케이블을 머리 위에서 잡고 눕습니다.", "팔꿈치를 고정한 채 바를 허벅지 쪽으로 눌러 폅니다.", "삼두가 늘어나도록 천천히 돌아옵니다."],
+      },
+      {
+        name: "인클라인 트라이셉스 익스텐션",
+        steps: ["인클라인 벤치에 누워 낮은 케이블 바를 머리 위에서 잡습니다.", "윗팔을 고정한 채 바를 이마 쪽으로 굽혔다가 폅니다.", "삼두 힘으로 팔을 펴 올립니다."],
+      },
+      {
+        name: "니링 트라이셉스 익스텐션",
+        steps: ["높은 케이블 앞에서 무릎을 꿇고 상체를 숙여 로프를 잡습니다.", "팔꿈치를 몸 옆에 붙인 채 로프를 뒤로 곧게 폅니다.", "천천히 팔을 굽혀 돌아옵니다."],
+      },
+      {
+        name: "니링 컨센트레이션 트라이셉스 익스텐션",
+        steps: ["케이블 앞에서 무릎을 꿇고 한 손으로 손잡이를 잡습니다.", "윗팔을 몸에 고정한 채 팔꿈치를 펴 손잡이를 뒤로 보냅니다.", "천천히 굽혀 돌아오고 반대 팔도 반복합니다."],
+      },
+      {
+        name: "로프 오버헤드 트라이셉스 익스텐션",
+        steps: ["낮거나 중간 높이 풀리에 로프를 걸고 케이블을 등지고 서서, 로프를 머리 뒤에서 두 손으로 잡고 한 발을 앞으로 내딛습니다.", "팔꿈치를 머리 옆에 모은 채 로프를 머리 위로 곧게 펴 올립니다.", "삼두가 늘어나도록 천천히 로프를 머리 뒤로 내립니다."],
+      },
+    ],
+    Bodyweight: [
+      {
+        name: "벤치 딥",
+        steps: ["벤치 가장자리를 뒤로 짚고 다리를 앞으로 뻗습니다.", "팔꿈치를 굽혀 엉덩이를 아래로 내립니다.", "삼두 힘으로 팔을 펴 올라옵니다."],
+      },
+      {
+        name: "트라이셉스 딥",
+        steps: ["평행봉을 잡고 상체를 세운 채 몸을 들어 올립니다.", "팔꿈치를 뒤로 굽혀 몸을 내립니다.", "삼두 힘으로 팔을 펴 올라옵니다."],
+      },
+      {
+        name: "클로즈 트라이셉스 푸시업",
+        steps: ["손을 어깨 아래에 좁게 짚고 몸을 일직선으로 만듭니다.", "팔꿈치를 몸에 붙인 채 가슴을 내립니다.", "삼두 힘으로 바닥을 밀어 올라옵니다."],
+      },
+      {
+        name: "수건 트라이셉스 익스텐션",
+        steps: ["수건 양 끝을 잡고 머리 위로 팔을 듭니다.", "팔꿈치를 고정한 채 수건을 머리 뒤로 내립니다.", "삼두 힘으로 팔을 펴 올립니다."],
       },
     ],
   },
@@ -433,6 +555,44 @@ const FREE_WEIGHT: Record<string, Record<Equipment, FreeWeightEntry[]>> = {
       {
         name: "시티드 앱 크런치",
         steps: ["케이블 로프를 머리 옆에서 잡고 무릎을 꿇거나 앉습니다.", "복근을 말아 상체를 아래로 숙입니다.", "천천히 상체를 펴며 돌아옵니다."],
+      },
+    ],
+    Bodyweight: [
+      {
+        name: "크런치",
+        steps: ["바닥에 누워 무릎을 세우고 손을 머리 옆에 둡니다.", "복근을 말아 어깨를 바닥에서 들어 올립니다.", "천천히 내립니다."],
+      },
+      {
+        name: "디클라인 크런치",
+        steps: ["디클라인 벤치에 누워 발을 고정합니다.", "복근을 말아 상체를 들어 올립니다.", "천천히 내립니다."],
+      },
+      {
+        name: "크로스 바디 크런치",
+        steps: ["바닥에 누워 손을 머리 옆에 둡니다.", "한쪽 팔꿈치를 반대쪽 무릎 쪽으로 가져옵니다.", "천천히 풀고 반대쪽도 반복합니다."],
+      },
+      {
+        name: "디클라인 오블리크 크런치",
+        steps: ["디클라인 벤치에 옆으로 누워 발을 고정합니다.", "옆구리 힘으로 상체를 옆으로 들어 올립니다.", "천천히 내리고 반대쪽도 반복합니다."],
+      },
+      {
+        name: "에어 바이크",
+        steps: ["바닥에 누워 손을 머리 옆에 두고 다리를 듭니다.", "자전거를 타듯 무릎과 반대쪽 팔꿈치를 번갈아 모읍니다.", "허리가 뜨지 않게 일정한 속도로 이어 갑니다."],
+      },
+      {
+        name: "벤트 니 힙 레이즈",
+        steps: ["바닥에 누워 팔을 몸 옆에 두고, 무릎을 굽혀 다리를 몸 위로 듭니다.", "아랫배 힘으로 엉덩이를 바닥에서 말아 올려 무릎을 가슴 쪽으로 당깁니다.", "천천히 엉덩이를 내려 시작 자세로 돌아옵니다."],
+      },
+      {
+        name: "플랫 벤치 레그 레이즈",
+        steps: ["벤치에 누워 손으로 벤치 가장자리를 잡고 다리를 곧게 뻗습니다.", "무릎을 편 채 아랫배 힘으로 다리를 천장 쪽으로 수직까지 들어 올립니다.", "발이 바닥에 닿기 전까지 천천히 내립니다."],
+      },
+      {
+        name: "사이드 플랭크",
+        steps: ["팔꿈치로 바닥을 짚고 옆으로 누워 몸을 일직선으로 듭니다.", "골반이 처지지 않게 옆구리에 힘을 줍니다.", "정해진 시간 동안 버티고 반대쪽도 합니다."],
+      },
+      {
+        name: "어브도미널 드로우 인",
+        steps: ["바닥에 누워 무릎을 세우고 힘을 뺍니다.", "숨을 내쉬며 배꼽을 척추 쪽으로 당깁니다.", "그대로 버틴 뒤 천천히 풉니다."],
       },
     ],
   },
@@ -569,6 +729,43 @@ const FREE_WEIGHT_IMAGES: Record<string, string> = {
   "Dumbbell|사이드 벤드": "/free-weight/dumbbell-side-bend.png",
   "Barbell|앱 롤아웃": "/free-weight/barbell-ab-rollout.png",
   "Cable|시티드 앱 크런치": "/free-weight/cable-seated-ab-crunch.png",
+  "Bodyweight|푸시업": "/free-weight/bodyweight-push-up.png",
+  "Bodyweight|발 올린 푸시업": "/free-weight/bodyweight-feet-elevated-push-up.png",
+  "Bodyweight|체스트 딥": "/free-weight/bodyweight-chest-dips.png",
+  "Bodyweight|풀업": "/free-weight/bodyweight-pull-up.png",
+  "Bodyweight|와이드 그립 친업": "/free-weight/bodyweight-wide-grip-chin-up.png",
+  "Bodyweight|내로우 그립 친업": "/free-weight/bodyweight-narrow-grip-chin-up.png",
+  "Bodyweight|인버티드 로우": "/free-weight/bodyweight-body-row.png",
+  "Bodyweight|슈퍼맨": "/free-weight/bodyweight-superman.png",
+  "Bodyweight|하이퍼 익스텐션": "/free-weight/bodyweight-hyperextension.png",
+  "Bodyweight|브릿지": "/free-weight/bodyweight-bridging.png",
+  "Bodyweight|레그 리프트": "/free-weight/bodyweight-leg-lifts.png",
+  "Bodyweight|플러터 킥": "/free-weight/bodyweight-flutter-kicks.png",
+  "Bodyweight|동키 카프 레이즈": "/free-weight/bodyweight-donkey-calf-raise.png",
+  "Bodyweight|벤치 딥": "/free-weight/bodyweight-bench-dips.png",
+  "Bodyweight|트라이셉스 딥": "/free-weight/bodyweight-triceps-dips.png",
+  "Bodyweight|클로즈 트라이셉스 푸시업": "/free-weight/bodyweight-close-triceps-pushup.png",
+  "Bodyweight|수건 트라이셉스 익스텐션": "/free-weight/bodyweight-towel-triceps-extension.png",
+  "Bodyweight|크런치": "/free-weight/bodyweight-crunches.png",
+  "Bodyweight|디클라인 크런치": "/free-weight/bodyweight-decline-crunch.png",
+  "Bodyweight|크로스 바디 크런치": "/free-weight/bodyweight-cross-body-crunch.png",
+  "Bodyweight|디클라인 오블리크 크런치": "/free-weight/bodyweight-decline-oblique-crunch.png",
+  "Bodyweight|에어 바이크": "/free-weight/bodyweight-air-bike.png",
+  "Bodyweight|벤트 니 힙 레이즈": "/free-weight/bodyweight-bent-knee-hip-raise-steps.png",
+  "Bodyweight|플랫 벤치 레그 레이즈": "/free-weight/bodyweight-flat-bench-leg-raises-steps.png",
+  "Bodyweight|사이드 플랭크": "/free-weight/bodyweight-side-plank.png",
+  "Bodyweight|어브도미널 드로우 인": "/free-weight/bodyweight-abdominal-draw-in.png",
+  "Cable|라잉 케이블 컬": "/free-weight/cable-lying-curl.png",
+  "Cable|라잉 클로즈 그립 케이블 컬": "/free-weight/cable-lying-close-grip-curl.png",
+  "Cable|원암 스탠딩 케이블 컬": "/free-weight/cable-standing-one-arm-curl.png",
+  "Cable|로프 푸시다운": "/free-weight/cable-rope-pushdown.png",
+  "Cable|인클라인 푸시다운": "/free-weight/cable-incline-pushdown.png",
+  "Cable|인클라인 트라이셉스 익스텐션": "/free-weight/cable-incline-triceps-extension.png",
+  "Cable|니링 트라이셉스 익스텐션": "/free-weight/cable-kneeling-triceps-extension.png",
+  "Cable|니링 컨센트레이션 트라이셉스 익스텐션": "/free-weight/cable-kneeling-triceps-concentration-extension.png",
+  "Cable|로프 오버헤드 트라이셉스 익스텐션": "/free-weight/cable-rope-overhead-triceps-extension-steps.png",
+  "Cable|케이블 페이스 풀": "/free-weight/cable-face-pull-steps.png",
+  "Cable|하이 케이블 리어 델트 플라이": "/free-weight/cable-high-rear-delt-fly-end.png",
 };
 
 /** 프리웨이트 운동 사진 주소. 없으면 undefined. */

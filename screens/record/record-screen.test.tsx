@@ -45,8 +45,8 @@ describe("운동 고르기: Machine", () => {
   it("카테고리가 하나뿐인 종목은 그 하나만 보이고 브랜드가 바로 나온다", () => {
     render(<RecordScreen />);
 
-    fireEvent.click(screen.getByRole("button", { name: "하체" }));
-    fireEvent.click(screen.getByRole("button", { name: "레그 컬" }));
+    fireEvent.click(screen.getByRole("button", { name: "가슴" }));
+    fireEvent.click(screen.getByRole("button", { name: "케이블 크로스오버" }));
 
     expect(
       buttonNames(screen.getByRole("group", { name: "머신 카테고리" })),
@@ -151,6 +151,7 @@ describe("운동 고르기: Free Weight", () => {
       "Dumbbell",
       "Barbell",
       "Cable",
+      "Bodyweight",
     ]);
     expect(
       cardNames(screen.getByRole("group", { name: "프리웨이트 종목" })).slice(0, 4),
